@@ -1,0 +1,28 @@
+NAME = philo
+
+CC = cc
+CFLAGS = -Wall -Werror -Wextra
+DBGFLAGS = -g -fsanitize=leak,address,origin
+
+SOURCES = \
+	philo.c			\
+	
+LIBRARIES = libft/libft.a
+
+.PHONY: all $(NAME) debug clean fclean gen clean_gen re
+
+all: $(NAME)
+$(NAME):
+	@cd Lib42; make
+	@$(CC) $(CFLAGS) $(SOURCES) $(LIBRARIES) -o $(NAME)
+
+debug: CFLAGS += $(DBGFLAGS)
+debug: re
+
+clean:
+	@rm -f $(OBJECTS)
+
+fclean: clean
+	@rm -f $(NAME)
+
+re: fclean $(NAME)

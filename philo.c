@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h> 
 #include <pthread.h>
+#include "libft/libft.h"
 
 
 typedef struct s_philo{
@@ -18,88 +19,65 @@ pthread_mutex_t	*right_fork;
 pthread_mutex_t	*write_lock;
 } t_philo;
 
+typedef struct s_data{
+	int num_of_philos;
+	int time_to_die;
+	int time_to_eat;
+	int time_to_sleep;
+	int num_of_each_must_eat;
 
-int cont = 0;
+}t_data;
 
-pthread_mutex_t lock;
 
-void  *routine()
+
+t_data *data_to_struct(int *arguments, int len)
 {
-  int i;
+	t_data *data;
 
-  i = -1;
-  
-  while (++i < 1000000)
-  {
-		pthread_mutex_lock(&lock);
-        cont++;
-        pthread_mutex_unlock(&lock);
-
-  }
-  
-  return (NULL);
+	data = NULL;
+	data -> num_of_philos = arguments[0];
+	data -> time_to_die = arguments[1];
+	data -> time_to_eat = arguments[2];
+	data -> time_to_sleep = arguments[3];
+	if ((len == 5) && arguments[4])
+		data -> num_of_each_must_eat =  arguments[4];
+	return (data);
 }
 
-int main()
+t_data *arg_reader(int argc, char **argv, int *arguments)
 {
-pthread_t t1;
-pthread_t t2;
+	if (!argv || argc < 4)
+		return (0);
+	
+	t_data *data;
+	int i;
 
-pthread_mutex_init(&lock, NULL);
-
-pthread_create(&t1, NULL, &routine,"Hello world\n");
-pthread_create(&t2, NULL, &routine, NULL);
-
-
-pthread_join(pthread_self(), NULL);
-
-
-pthread_join(t1, NULL);
-pthread_join(t2, NULL);
-
-pthread_mutex_destroy(&lock);
-
-printf("count: %d\n", cont);
+	i = 0;
+	while (i < (argc - 1))
+	{
+		arguments[i] = ft_atoi(argv[i + 1]);
+		++i;
+	}
+	data = data_to_struct(arguments, argc - 1);
+	return (data);
 }
 
-// main(int argc, char *argv[])
-// {
-// pthread_t t1;
-// void *res;
-// int s;
-// s = pthread_create(&t1, NULL, &routine, "Hello world\n");
-// if (s != 0)
-// errExitEN(s, "pthread_create");
-// printf("Message from main()\n");
-// s = pthread_join(t1, &res);
-// if (s != 0)
-// errExitEN(s, "pthread_join");
-// printf("Thread returned %ld\n", (long) res);
-// //exit(EXIT_SUCCESS);
-// }
 
+int main(int argc, char *argv[])
+{
+	t_data *data;
+	int *arguments;
+	
+	if (argc < 5 || argc > 6)
+		return (0);
 
-#include <pthread.h>
-#include <stdio.h>
-#include <errno.h>
-#include <string.h>
+	arguments = malloc(sizeof (int) * (argc - 1));
+	if (!arguments)
+		return (1);
+	data = arg_reader(argc, argv, arguments);
 
-int main() {
-    pthread_t tid = pthread_self();
+	printf ("num of philos %d\n",data -> num_of_philos);
 
-    // 1. Ochrana: Jak zabránit zavolání join na sebe sama
-    if (pthread_equal(tid, pthread_self())) {
-        printf("Nemohu zavolat pthread_join na sebe sama!\n");
-    } else {
-        pthread_join(tid, NULL);
-    }
-
-    // 2. Test, co se stane na Linuxu, když to přesto uděláme:
-    int s = pthread_join(pthread_self(), NULL);
-    if (s != 0) {
-        printf("pthread_join selhal s chybou %d: %s\n", s, strerror(s));
-        // Na Linuxu vrátí chybu EDEADLK (Resource deadlock avoided)
-    }
-
-    return 0;
+	free(arguments);
+	return (0);
 }
