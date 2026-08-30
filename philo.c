@@ -34,7 +34,10 @@ t_data *data_to_struct(int *arguments, int len)
 {
 	t_data *data;
 
-	data = NULL;
+	data = malloc (sizeof (t_data));
+	if (!data)
+		return (0);
+	
 	data -> num_of_philos = arguments[0];
 	data -> time_to_die = arguments[1];
 	data -> time_to_eat = arguments[2];
@@ -44,22 +47,24 @@ t_data *data_to_struct(int *arguments, int len)
 	return (data);
 }
 
-t_data *arg_reader(int argc, char **argv, int *arguments)
+int *arg_reader(int argc, char **argv)
 {
 	if (!argv || argc < 4)
 		return (0);
-	
-	t_data *data;
+
 	int i;
+	int *arguments;
 
 	i = 0;
+	arguments = malloc (sizeof (int) * (argc - 1));
+	if (!arguments)
+		return (NULL);
 	while (i < (argc - 1))
 	{
 		arguments[i] = ft_atoi(argv[i + 1]);
 		++i;
 	}
-	data = data_to_struct(arguments, argc - 1);
-	return (data);
+	return (arguments);
 }
 
 
@@ -70,14 +75,13 @@ int main(int argc, char *argv[])
 	
 	if (argc < 5 || argc > 6)
 		return (0);
-
-	arguments = malloc(sizeof (int) * (argc - 1));
-	if (!arguments)
-		return (1);
-	data = arg_reader(argc, argv, arguments);
+	
+	arguments = arg_reader(argc, argv);
+	data = data_to_struct(arguments, argc - 1);
 
 	printf ("num of philos %d\n",data -> num_of_philos);
 
 	free(arguments);
+	free(data);
 	return (0);
 }
