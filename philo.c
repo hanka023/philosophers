@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <unistd.h> 
-#include <pthread.h>
-#include "libft/libft.h"
+# include <stdio.h>
+# include <unistd.h> 
+# include <pthread.h>
+# include "libft/libft.h"
 
 
 typedef struct s_philo{
@@ -28,8 +28,6 @@ typedef struct s_data{
 
 }t_data;
 
-
-
 t_data *data_to_struct(int *arguments, int len)
 {
 	t_data *data;
@@ -42,7 +40,7 @@ t_data *data_to_struct(int *arguments, int len)
 	data -> time_to_die = arguments[1];
 	data -> time_to_eat = arguments[2];
 	data -> time_to_sleep = arguments[3];
-	if ((len == 5) && arguments[4])
+	if (len == 5)
 		data -> num_of_each_must_eat =  arguments[4];
 	return (data);
 }
@@ -56,7 +54,7 @@ int *arg_reader(int argc, char **argv)
 	int *arguments;
 
 	i = 0;
-	arguments = malloc (sizeof (int) * (argc - 1));
+	arguments = malloc (sizeof(int) * (argc - 1));
 	if (!arguments)
 		return (NULL);
 	while (i < (argc - 1))
@@ -66,6 +64,75 @@ int *arg_reader(int argc, char **argv)
 	}
 	return (arguments);
 }
+
+void print_data(t_data *data, int len)
+{
+	printf ("num of philos	%d\n",data -> num_of_philos);
+	printf ("time to die	%d\n",data -> time_to_die);
+	printf ("time to eat	%d\n",data -> time_to_eat);
+	printf ("time to sleep	%d\n",data -> time_to_sleep);
+	
+	if ((len == 5))
+		printf("n each must eat %d\n",data -> num_of_each_must_eat);
+	return ;
+
+}
+
+void *routine (void *arg)
+{
+	t_philo *philo;
+
+	philo = (t_philo *)arg;
+
+	while (1)
+	{
+		pthread_mutex_lock(philo -> left_fork);
+		printf("philo has taken left fork\n");
+		pthread_mutex_lock(philo -> right_fork);
+		printf("philo has taken right fork\n");
+
+
+		pthread_mutex_unlock(philo->right_fork);
+        pthread_mutex_unlock(philo->left_fork);
+
+
+	}
+
+	return (0);
+}
+
+
+pthread_t *philos(int len)
+{
+	pthread_t *philo;
+	pthread_mutex_t *fork;
+	int i;
+
+	i = 0;
+
+	philo = malloc(sizeof (pthread_t) * len);
+	fork = malloc(sizeof(pthread_mutex_t) * len);
+	if (!philo || !fork)
+		return (NULL);
+
+	while (i < len)
+	{
+		pthread_mutex_init(&fork[i], NULL);
+		pthread_create(&philo[i], NULL, &routine, NULL);
+		i++;
+	}
+	i = 0;
+	while (i < len)
+	{
+		pthread_join(philo[i], NULL);
+		pthread_mutex_destroy(&fork[i]);
+		++i;
+	}
+	free (fork);
+	return (NULL);
+}
+
+
 
 
 int main(int argc, char *argv[])
@@ -79,7 +146,7 @@ int main(int argc, char *argv[])
 	arguments = arg_reader(argc, argv);
 	data = data_to_struct(arguments, argc - 1);
 
-	printf ("num of philos %d\n",data -> num_of_philos);
+	print_data (data, argc - 1);
 
 	free(arguments);
 	free(data);
