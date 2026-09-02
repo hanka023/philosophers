@@ -90,7 +90,7 @@ void *routine (void *arg)
 		printf("philo has taken left fork\n");
 		pthread_mutex_lock(philo -> right_fork);
 		printf("philo has taken right fork\n");
-
+		
 
 		pthread_mutex_unlock(philo->right_fork);
         pthread_mutex_unlock(philo->left_fork);
