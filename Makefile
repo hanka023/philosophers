@@ -14,7 +14,11 @@ LIBFT       = $(LIBFT_DIR)/libft.a
 LDFLAGS     = -Llibft -lft 
 
 # Seznam všech .c souborů
-SRC = philo.c		\
+SRC =	main.c			\
+		arguments.c 	\
+		philo.c			\
+		struct.c		\
+		time.c 			\
 		
 	
 # Změna koncovek .c na .o pro objekty
