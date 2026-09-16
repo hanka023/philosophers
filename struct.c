@@ -1,7 +1,7 @@
 # include "philo.h"
 
 
-t_data *data_to_struct(int *arguments, int len)
+t_data *data_to_struct(int *arguments, int len, pthread_mutex_t *forks)
 {
 	t_data *data;
 
@@ -16,17 +16,29 @@ t_data *data_to_struct(int *arguments, int len)
 	if (len == 5)
 		data -> must_eat =  arguments[4];
 	else
-		data -> must_eat =  10;
+		data -> must_eat = -1;
+	//data->philos = philo_to_struct(data, forks);
+	
+	// data -> philos = malloc(sizeof(t_philo) *( data -> num_of_philos));
+    // if (!data-> philos)
+	// {
+	// 	free(data);
+	// 	return (NULL);
+	// }
+
+	data -> philos = philo_to_struct(data, forks);
 	return (data);
 }
 
-t_philo *philo_to_struct( int len, t_data *data, pthread_mutex_t *forks)
+t_philo *philo_to_struct(t_data *data, pthread_mutex_t *forks)
 {
 	t_philo *philos;
-	//pthread_mutex_t *forks;
+	int len;
 	int i;
-	//printf ("philo to struct jede\n");
+	
 	i = 0;
+	len = data -> num_of_philos;
+	printf ("len %d\n", len);
 	philos = malloc(sizeof (t_philo) * len);
 	if (!philos)
 		return (NULL);
@@ -47,17 +59,3 @@ t_philo *philo_to_struct( int len, t_data *data, pthread_mutex_t *forks)
 	}
 	return (philos);
 }
-
-
-// void mutex_to_thread(pthread_t *thread, pthread_mutex_t *mutex)
-// {
-	
-// }
-
-// void start_simulation(pthread_t *philos, pthread_mutex_t *mutex)
-// {
-
-	
-
-
-// }

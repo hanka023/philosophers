@@ -16,6 +16,7 @@ LDFLAGS     = -Llibft -lft
 # Seznam všech .c souborů
 SRC =	main.c			\
 		arguments.c 	\
+		monitoring.c 	\
 		philo.c			\
 		struct.c		\
 		time.c 			\
