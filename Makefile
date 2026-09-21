@@ -17,8 +17,9 @@ LDFLAGS     = -Llibft -lft
 SRC =	main.c			\
 		arguments.c 	\
 		monitoring.c 	\
-		philo.c			\
+		routine.c		\
 		struct.c		\
+		thread_mutex.c 	\
 		time.c 			\
 		
 	

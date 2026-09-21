@@ -16,6 +16,7 @@ typedef struct s_data{
 	size_t time_to_sleep;
 	size_t must_eat;
 	t_philo *philos;
+	int		died;	
 }t_data;
 
 
@@ -33,6 +34,7 @@ pthread_mutex_t	*left_fork;
 pthread_mutex_t	*right_fork;
 pthread_mutex_t	mtx;
 t_data			*data;
+int				died;
 } t_philo;
 
 
@@ -47,7 +49,7 @@ void		print_data(t_data *data, int len);
 /* * * * * * philo.c * * * * * */
 
 
-void			*routine (void *arg);
+void			*routine(void *arg);
 pthread_mutex_t	*mutex_init(int len);
 pthread_t		*pthread_init(int len, t_philo *philos);
 void			my_pthreads_join(pthread_t *thread, int len);
@@ -61,7 +63,7 @@ void		ft_usleep (size_t time_in_ms);
 /* * * * * * monitoring.c * * * * * */
 
 void *m_routine(void *arg);
-pthread_t monitoring (t_data *data);  
+int monitoring (t_data *data);  
 
 /* * * * * * * * * * * * * * */
 

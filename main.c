@@ -5,7 +5,7 @@ int main(int argc, char *argv[])
 {
 	t_data *data;
 	pthread_t *philos;
-	pthread_t monitor;
+	int monitor;
 	t_philo		*phil;
 	//pthread_mutex_t	*mutex;
 	int *arguments;
@@ -27,18 +27,29 @@ int main(int argc, char *argv[])
 	forks = mutex_init(num_of_phils);
 
 	data = data_to_struct(arguments, len, forks);
-
-	
 	
 	phil = philo_to_struct(data, forks);
-	philos = pthread_init (data -> num_of_philos, phil);
-	monitor = monitoring (data);
+	while (1)
+	{
+		
+		philos = pthread_init (data -> num_of_philos, phil);
+		monitor = monitoring (data);
+		printf ("mmmmm\n");
+		if (!monitor)
+		{
+			printf("monitor NULL\n");
+			break;
+		}
+	}
 
+	printf (" x x x x x sem venku z cyklu x x x x x \n\n\n");
+	//ft_usleep(100);
+	
 	//mutex = mutex_init(len);
-	print_data (data, len);
+	//print_data (data, len);
 	//mutex_to_thread(philos, mutex);
 	//start_simulation (philos, mutex);
-	pthread_join(monitor, NULL);
+	//pthread_join(monitor, NULL);
 	my_pthreads_join(philos, data -> num_of_philos);
 	free(arguments);
 	free(data -> philos);

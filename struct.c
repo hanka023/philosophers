@@ -53,8 +53,9 @@ t_philo *philo_to_struct(t_data *data, pthread_mutex_t *forks)
 		philos[i].time_to_die = data -> time_to_die;
 		philos[i].time_to_sleep = data -> time_to_sleep;
 		philos[i].time_to_eat = data -> time_to_eat;
-		philos[i].dead = 0;
+		philos[i].died = 0;
 		philos[i].num_to_eat = data -> must_eat;
+		philos[i].last_meal = get_time_in_ms();
 		++i;	
 	}
 	return (philos);
