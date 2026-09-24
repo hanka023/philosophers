@@ -16,15 +16,7 @@ t_data *data_to_struct(int *arguments, int len, pthread_mutex_t *forks)
 	if (len == 5)
 		data -> must_eat =  arguments[4];
 	else
-		data -> must_eat = -1;
-	//data->philos = philo_to_struct(data, forks);
-	
-	// data -> philos = malloc(sizeof(t_philo) *( data -> num_of_philos));
-    // if (!data-> philos)
-	// {
-	// 	free(data);
-	// 	return (NULL);
-	// }
+		data -> must_eat = 10;
 
 	data -> philos = philo_to_struct(data, forks);
 	return (data);

@@ -3,9 +3,10 @@
 
 int main(int argc, char *argv[])
 {
+
 	t_data *data;
 	pthread_t *philos;
-	int monitor;
+
 	t_philo		*phil;
 	//pthread_mutex_t	*mutex;
 	int *arguments;
@@ -14,14 +15,14 @@ int main(int argc, char *argv[])
 	int num_of_phils;
 
 	num_of_phils = ft_atoi (argv[1]);
-	printf ("main jede\n");
+	//printf ("main jede\n");
 	fflush(stdout);
 
 	if (argc < 5 || argc > 6)
 		return (0);
 	len = argc - 1;
 	arguments = arg_reader(argc, argv);
-	printf ("main  stale jede\n");
+	//printf ("main  stale jede\n");
 	fflush(stdout);
 
 	forks = mutex_init(num_of_phils);
@@ -29,20 +30,15 @@ int main(int argc, char *argv[])
 	data = data_to_struct(arguments, len, forks);
 	
 	phil = philo_to_struct(data, forks);
-	while (1)
-	{
+	// while (1)
+	// {
 		
 		philos = pthread_init (data -> num_of_philos, phil);
-		monitor = monitoring (data);
-		printf ("mmmmm\n");
-		if (!monitor)
-		{
-			printf("monitor NULL\n");
-			break;
-		}
-	}
+		monitoring (data);
+	
+	//}
 
-	printf (" x x x x x sem venku z cyklu x x x x x \n\n\n");
+	printf (" x x x x x x x x x x \n\n\n");
 	//ft_usleep(100);
 	
 	//mutex = mutex_init(len);
