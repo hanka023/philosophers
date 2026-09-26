@@ -1,0 +1,68 @@
+len 4
+len 4
+while jede 
+philo 2 meals eaten [0] to eat [10]
+philo 2 has taken right fork
+while jede 
+philo 4 meals eaten [0] to eat [10]
+philo 4 has taken right fork
+ ++++   +++   pocet filosofu [4] +++ 
+philo 4 has taken left fork
+philo 4 ma obe vidlicky
+philo 4 is eating
+philo 4 meals eaten: 1
+philo 2 has taken left fork
+philo 2 ma obe vidlicky
+philo 2 is eating
+philo 2 meals eaten: 1
+while jede 
+philo 3 meals eaten [0] to eat [10]
+while jede 
+philo 1 meals eaten [0] to eat [10]
+philo 2 vratil right fork
+philo 2 vratil left fork
+philo 2 is sleeping
+philo 1 has taken left fork
+philo 3 has taken left fork
+philo 4 vratil right fork
+philo 4 vratil left fork
+philo 4 is sleeping
+philo 1 has taken right fork
+philo 1 is eating
+philo 1 meals eaten: 1
+philo 3 has taken right fork
+philo 3 is eating
+philo 3 meals eaten: 1
+philo 4 is thinking
+philo 2 is thinking
+philo 3 vratil right fork
+philo 3 vratil left fork
+philo 1 vratil right fork
+philo 3 is sleeping
+philo 1 vratil left fork
+philo 1 is sleeping
+ x x x x philo 1 chcipnul hladem :( x x x x x 411
+ x x x x philo 2 chcipnul hladem :( x x x x x 411
+ x x x x philo 3 chcipnul hladem :( x x x x x 411
+ x x x x x x x x x x 
+
+
+  x x x  4 x x x 
+while jede 
+while jede 
+philo 4 meals eaten [1] to eat [10]
+philo 4 chcipnul * * * 1790345873275 * * *1790345873876 
+philo 2 meals eaten [1] to eat [10]
+philo 2 chcipnul * * * 1790345873274 * * *1790345873876 
+philo 1 is thinking
+philo 3 is thinking
+while jede 
+while jede 
+philo 1 meals eaten [1] to eat [10]
+philo 3 meals eaten [1] to eat [10]
+philo 3 chcipnul * * * 1790345873275 * * *1790345874077 
+philo 1 chcipnul * * * 1790345873274 * * *1790345874077 
+ thread 1 join
+ thread 2 join
+ thread 3 join
+ thread 4 join

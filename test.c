@@ -22,7 +22,6 @@ int main()
 	int i = 1;
 	int j = 2;
 	
-
 	pthread_create(&t1, NULL, funkce, &i);
   	pthread_create(&t2, NULL, funkce, &j);
 
