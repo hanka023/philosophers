@@ -4,13 +4,20 @@
 
 // int gettimeofday(struct timeval *tv, struct timezone *tz);
 
-long long get_time_in_ms (void)
+// long long get_time_in_ms (void)
+// {
+// 	struct timeval tv;
+// 	gettimeofday(&tv, NULL);
+// 	return((tv.tv_sec * 1000LL) + (tv.tv_usec/1000));
+// }
+
+
+size_t get_time_in_ms (void)
 {
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
 	return((tv.tv_sec * 1000LL) + (tv.tv_usec/1000));
 }
-
 void ft_usleep (long long time_in_ms)
 {
 	long long start_time;

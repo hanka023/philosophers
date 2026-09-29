@@ -41,15 +41,46 @@ long long count_time_to_think(t_philo *philo)
 	return (time_to_think);
 }
 
+
+// void think(t_philo *philo)
+// {
+//     print_status(philo, "is thinking");
+    
+//     // U lichého počtu vyrovnáme šance těm, kteří čekají ve frontě
+//     if (philo->data->num_of_philos % 2 != 0)
+//     {
+//         long long time_to_think;
+
+//         // Vypočti bezpečný čas na přemýšlení mezi jídly
+//         time_to_think = (philo->data->time_to_die - (get_time_in_ms() - philo->last_meal) - philo->data->time_to_eat) / 2;
+//         if (time_to_think < 0)
+//             time_to_think = 0;
+//         if (time_to_think > 1000)
+//             time_to_think = 200; // Krátká pauza stačí k předání řady
+            
+//         ft_usleep(time_to_think);
+//     }
+// }
+// void	print_action(t_philo *philo, char *action)
+// {
+// 	if (is_simulation_over(philo->program))
+// 		return ;
+// 	pthread_mutex_lock(&philo->program->write_lock);
+// 	if (!is_simulation_over(philo->program))
+// 		printf("%zu %d %s\n", get_current_time()
+// 			- philo->program->start_time, philo->id, action);
+// 	pthread_mutex_unlock(&philo->program->write_lock);
+// }
+
 void *routine (void *arg)
 {
 	t_philo *philo;
-	long long time;
+	size_t time;
 	long long time_to_think;
 
 	philo = (t_philo *)arg;
 
-	time = get_time_in_ms();
+	
 
 	if (!philo)
     {
@@ -66,14 +97,24 @@ void *routine (void *arg)
         return 0 ;
     }
 	if ((philo -> id) %2 != 0)
-		ft_usleep(2);
+		ft_usleep(1);
 	
 	if (philo -> id == 1)
-		ft_usleep (5);
+		ft_usleep (2);
 	(philo -> last_meal) = get_time_in_ms ();
+
+
+	if (philo->data->num_of_philos % 2 != 0)
+		//ft_usleep (2);
+		count_time_to_think(philo);
+
+	time = get_time_in_ms();
 	while (1)
 	{
 		printf ("while jede \n");
+
+		printf("* * * time: %zu \n", get_time_in_ms()- time);
+
 		printf ("philo %d meals eaten [%d] to eat [%d]\n", philo -> id, philo -> meals_eaten , philo -> num_to_eat);
 		if ((philo -> meals_eaten) >= (philo -> num_to_eat))
 		{
@@ -83,7 +124,7 @@ void *routine (void *arg)
 		}
 		if (philo -> data -> died == 1)
 		{
-			printf ("philo %d chcipnul * * * %lld * * *%lld \n", philo -> id, time,  get_time_in_ms() );
+			printf ("philo %d chcipnul * * * %ld * * *%lld \n", philo -> id, time,  get_time_in_ms() );
 			fflush(stdout);
 			break;
 		}
@@ -91,22 +132,29 @@ void *routine (void *arg)
 		if (philo -> id %2 == 0)
 		{	
 	
-			pthread_mutex_lock(philo -> right_fork);
-			printf("philo %d has taken right fork\n", philo -> id);
+			if (pthread_mutex_trylock(philo -> right_fork) == 0)
+				printf("philo %d [id 2 == 0] has taken right fork\n", philo -> id);
 		
 		
-			pthread_mutex_lock(philo -> left_fork);
-			printf("philo %d has taken left fork\n", philo -> id);
+			if (pthread_mutex_trylock(philo -> left_fork) == 0)
+				printf("philo %d [id 2 == 0] has taken left fork\n", philo -> id);
 
-			printf("philo %d ma obe vidlicky\n", philo -> id);
+			//printf("philo %d [id %2 == 0] ma obe vidlicky\n", philo -> id);
 		}
 		else
 		{
-			pthread_mutex_lock(philo -> left_fork);
-			printf("philo %d has taken left fork\n", philo -> id);
+
+			if (pthread_mutex_trylock(philo -> left_fork) == 0)
+				printf("philo %d [id 1] has taken left fork\n", philo -> id);
+		
+		
+			if (pthread_mutex_trylock(philo -> left_fork) == 0)
+				printf("philo %d [id 1] has taken right fork\n", philo -> id);
+			// pthread_mutex_lock(philo -> left_fork);
+			// printf("philo %d has taken left fork\n", philo -> id);
 	
-			pthread_mutex_lock(philo -> right_fork);
-			printf("philo %d has taken right fork\n", philo -> id);
+			// pthread_mutex_lock(philo -> right_fork);
+			// printf("philo %d has taken right fork\n", philo -> id);
 	
 		}
 
