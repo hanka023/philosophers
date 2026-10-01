@@ -8,12 +8,13 @@ void *m_routine(void *arg)
 	int			count;
 
 	i = 0;
+	died = 0;
 	data = (t_data *)arg;
 	count = data -> num_of_philos;
 	printf (" ++++   +++   pocet filosofu [%d] +++ \n", count);
 	while (1)
 	{
-		i = 1;
+		i = 0;
 		while (i < (data -> num_of_philos))
 		{
 			died = 0;
@@ -24,7 +25,7 @@ void *m_routine(void *arg)
 				(data -> philos[i].died = 1);
 				data -> died = 1;
 				died = 1;
-				printf (" x x x x philo %d chcipnul hladem :( x x x x x %lld\n", i, (get_time_in_ms() - (data -> philos[i].last_meal)));
+				printf (" x x philo %d chcipnul hladem :( x  bez jidla[%lld]  cas [%lld]\n", i, (get_time_in_ms() - (data -> philos[i].last_meal)), get_time_in_ms());
 			}
 			pthread_mutex_unlock(&data -> philos[i].mtx);
 			++i;

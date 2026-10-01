@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 	t_data *data;
 	pthread_t *philos;
 
-	t_philo		*phil;
+	t_philo		*philo;
 	//pthread_mutex_t	*mutex;
 	int *arguments;
 	int len;
@@ -29,12 +29,12 @@ int main(int argc, char *argv[])
 
 	data = data_to_struct(arguments, len, forks);
 	
-	phil = philo_to_struct(data, forks);
+	philo = philo_to_struct(data, forks);
 	// while (1)
 	// {
 		
-		philos = pthread_init (data -> num_of_philos, phil);
-		monitoring (data);
+		philos = pthread_init (data -> num_of_philos, philo);
+		//monitoring (data);
 	
 	//}
 
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 	free(data -> philos);
 	free(data);
 	free(philos);
-	free(phil);
+	free(philo);
 	free(forks);
 	return (0);
 }

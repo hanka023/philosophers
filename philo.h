@@ -55,8 +55,8 @@ void		ft_usleep (long long time_in_ms);
 
 /* * * * * * monitoring.c * * * * * */
 
-void *m_routine(void *arg);
-int monitoring (t_data *data);  
+void	*m_routine(void *arg);
+int		monitoring (t_data *data);  
 
 /* * * * * * * * * * * * * * */
 
