@@ -17,7 +17,7 @@ void *m_routine(void *arg)
 		i = 0;
 		while (i < (data -> num_of_philos))
 		{
-			died = 0;
+			//died = 0;
 			pthread_mutex_lock(&data -> philos[i].mtx);
 			if ((get_time_in_ms() - (data -> philos[i].last_meal)) > (data -> time_to_die))
 			{

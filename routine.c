@@ -54,12 +54,17 @@ void *routine (void *arg)
 		count_time_to_think(philo);
 
 	time = get_time_in_ms();
+
+	int w = 1;
 	while (1)
 	{
 	
-		printf ("while jede \n");
+		printf ("\n \n * * * %d.kolo * * * \n\n ", w);
+		++w;
 
 		printf("* * * time: %lld \n", get_time_in_ms()- time);
+		long long remaining = philo->time_to_die - (get_time_in_ms() - philo->last_meal);
+		printf("* * *  philo %d chce jist, zbývá mu do smrti: %lld ms * * * \n", philo->id, remaining);
 
 		printf ("philo %d meals eaten [%d] to eat [%d]\n", philo -> id, philo -> meals_eaten , philo -> num_to_eat);
 		if ((philo -> meals_eaten) >= (philo -> num_to_eat))

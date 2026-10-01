@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 	// {
 		
 		philos = pthread_init (data -> num_of_philos, philo);
-		//monitoring (data);
+		monitoring (data);
 	
 	//}
 
