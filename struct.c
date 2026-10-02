@@ -37,6 +37,8 @@ t_philo *philo_to_struct(t_data *data, pthread_mutex_t *forks)
 	//forks = mutex_init(len);
 	while (i < len)
 	{
+		//printf (" * * * * * philo[%d] * * * * * * \n", i);
+
 		philos[i].id = i + 1;
         philos[i].left_fork = &forks[i];
         philos[i].right_fork = &forks[(i + 1) % len];

@@ -6,22 +6,27 @@ void *m_routine(void *arg)
 	int			i;
 	int			died;
 	int			count;
+	// int 		meals;
 
 	i = 0;
 	died = 0;
 	data = (t_data *)arg;
 	count = data -> num_of_philos;
+	// meals = data -> must_eat;
+
+
 	printf (" ++++   +++   pocet filosofu [%d] +++ \n", count);
+
 	while (1)
 	{
 		i = 0;
 		while (i < (data -> num_of_philos))
 		{
-			//died = 0;
 			pthread_mutex_lock(&data -> philos[i].mtx);
+			// if ((data -> philos[i].meals_eaten) == meals)
+			// 	printf (" x x philo %d se nazral a konci  x x\n", i);
 			if ((get_time_in_ms() - (data -> philos[i].last_meal)) > (data -> time_to_die))
 			{
-
 				(data -> philos[i].died = 1);
 				data -> died = 1;
 				died = 1;
@@ -37,21 +42,21 @@ void *m_routine(void *arg)
 	return (NULL);
 }
 
-int monitoring (t_data *data)
-{
-	pthread_t	monitor;
-	int m;
+// int monitoring (t_data *data)
+// {
+// 	pthread_t	monitor;
+// 	int m;
 
-	pthread_mutex_t *mtx;
-	mtx = &data -> philos -> mtx;
+// 	pthread_mutex_t *mtx;
+// 	mtx = &data -> philos -> mtx;
 
-	pthread_mutex_init(mtx, NULL);
+// 	pthread_mutex_init(mtx, NULL);
 
-	m = pthread_create(&monitor, NULL, m_routine, data);
-	if (m != 0)
-		return (0);
-	pthread_join(monitor, NULL);
+// 	m = pthread_create(&monitor, NULL, m_routine, data);
+// 	if (m != 0)
+// 		return (0);
+// 	// pthread_join(monitor, NULL);
 
-//	pthread_mutex_destroy(mtx);
-	return(0);
-}
+// //	pthread_mutex_destroy(mtx);
+// 	return(0);
+// }

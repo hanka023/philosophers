@@ -24,6 +24,7 @@ void *routine (void *arg)
 	t_philo *philo;
 	size_t time;
 	long long time_to_think;
+	long long remaining;
 
 	philo = (t_philo *)arg;
 
@@ -46,8 +47,9 @@ void *routine (void *arg)
 	
 	if (philo -> id == 1)
 		ft_usleep (2);
+	pthread_mutex_lock(&philo->mtx);
 	(philo -> last_meal) = get_time_in_ms ();
-
+	pthread_mutex_unlock(&philo->mtx);
 
 	if (philo->data->num_of_philos % 2 != 0)
 		//ft_usleep (2);
@@ -63,20 +65,18 @@ void *routine (void *arg)
 		++w;
 
 		printf("* * * time: %lld \n", get_time_in_ms()- time);
-		long long remaining = philo->time_to_die - (get_time_in_ms() - philo->last_meal);
-		printf("* * *  philo %d chce jist, zbývá mu do smrti: %lld ms * * * \n", philo->id, remaining);
+		remaining = philo->time_to_die - (get_time_in_ms() - philo->last_meal);
+		printf("* * *  philo %d ji, zbývá mu do smrti: %lld ms * * * \n", philo->id, remaining);
 
 		printf ("philo %d meals eaten [%d] to eat [%d]\n", philo -> id, philo -> meals_eaten , philo -> num_to_eat);
 		if ((philo -> meals_eaten) >= (philo -> num_to_eat))
 		{
 			printf("philo %d is finished\n", philo -> id);
-			fflush(stdout);
 			break;
 		}
 		if (philo -> data -> died == 1)
 		{
 			printf ("philo %d chcipnul * * * %ld * * *bez jidla [%lld] \n", philo -> id, time,  get_time_in_ms() -  philo -> last_meal);
-			fflush(stdout);
 			break;
 		}
 	
@@ -95,12 +95,20 @@ void *routine (void *arg)
 			pthread_mutex_lock(philo -> right_fork);
 			printf("philo %d [id 1] has taken right fork\n", philo -> id);
 		}
-
+		
 		printf ("philo %d is eating\n", philo -> id);
 
+
 		printf ("x x x philo %ld last meal ------- puvodni hodnota\n", philo -> last_meal);
-	
+		printf(" ------------- [1]  philo %d jde jist, zbývá mu do smrti: %lld ms * * * \n", philo->id, remaining);
+		
+		pthread_mutex_lock(&philo->mtx);
 		(philo -> last_meal) = get_time_in_ms();
+		remaining = philo->time_to_die - (get_time_in_ms() - philo->last_meal);
+		pthread_mutex_unlock(&philo->mtx);
+		
+		
+		printf("------------- [2] philo %d dojedl, zbývá mu do smrti: %lld ms * * * \n", philo->id, remaining);
 		printf ("x x x philo %ld last meal --------nova hodnota\n", philo -> last_meal);
 	
 		(philo -> meals_eaten) ++;
@@ -123,10 +131,14 @@ void *routine (void *arg)
 		ft_usleep(philo -> time_to_sleep);
 		printf ("philo %d is sleeping\n", philo -> id);
 		printf("philo %d spi  cas [%lld] bez jidla [%lld] \n", (philo -> id), get_time_in_ms(), get_time_in_ms() - (philo -> last_meal) );
+
+		remaining = philo->time_to_die - (get_time_in_ms() - philo->last_meal);
+		printf("------------- [2] philo %d dospal, zbývá mu do smrti: %lld ms * * * \n", philo->id, remaining);
+
 		time_to_think = count_time_to_think(philo);
 		ft_usleep(time_to_think);
 		printf ("philo %d is thinking [%lldms]\n", philo -> id, time_to_think );
-		printf ("philo %d time to die [%lldms]\n", philo -> id,(philo -> time_to_die -  (get_time_in_ms() - philo->last_meal)));
+		printf ("philo %d time to die [%lldms]\n", philo -> id,(philo -> time_to_die - (get_time_in_ms() - philo->last_meal)));
 
 	}
 	return (0);

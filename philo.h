@@ -41,12 +41,13 @@ t_philo		*philo_to_struct(t_data *data, pthread_mutex_t *forks);
 int			*arg_reader(int argc, char **argv);
 void		print_data(t_data *data, int len);
 
-/* * * * * * philo.c * * * * * */
+/* * * * * * philo.c   -thread_mutex.c* * * * * */
 
 void			*routine(void *arg);
 pthread_mutex_t	*mutex_init(int len);
 pthread_t		*pthread_init(int len, t_philo *philos);
 void			my_pthreads_join(pthread_t *thread, int len);
+int				mutex_destroy(pthread_mutex_t *mtx, int len);
 
 /* * * * * * time.c * * * * * */
 
@@ -56,7 +57,8 @@ void		ft_usleep (long long time_in_ms);
 /* * * * * * monitoring.c * * * * * */
 
 void	*m_routine(void *arg);
-int		monitoring (t_data *data);  
+//int		monitoring (t_data *data);  
+pthread_t monitoring (t_data *data);
 
 /* * * * * * * * * * * * * * */
 
