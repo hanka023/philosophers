@@ -36,9 +36,10 @@ void *m_routine(void *arg)
 				(data -> philos[i].died = 1);
 				data -> died = 1;
 				died = 1;
-				printf (" x x philo %d chcipnul hladem :( x  bez jidla[%lld]  cas [%lld]\n", i + 1, (get_time_in_ms() - (data -> philos[i].last_meal)), get_time_in_ms());
+				printf (" x x philo %d chcipnul hladem :( x  bez jidla[%lld]  cas [%lld]\n", i + 1, (get_time_in_ms() - (last)), get_time_in_ms());
 				printf ( "* * * * * * * * * finished [%d]\n",finished);
 			}
+
 			++i;
 		}
 		
