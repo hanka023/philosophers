@@ -10,6 +10,7 @@ t_data *data_to_struct(int *arguments, int len, pthread_mutex_t *forks)
 		return (0);
 	
 	data -> num_of_philos = arguments[0];
+	data -> finished = 0;
 	data -> time_to_die = arguments[1];
 	data -> time_to_eat = arguments[2];
 	data -> time_to_sleep = arguments[3];

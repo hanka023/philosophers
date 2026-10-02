@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 
 	t_data *data;
 	pthread_t *philos;
-	//pthread_t monitor;
+	pthread_t monitor;
 	t_philo		*philo;
 	//pthread_mutex_t	*mutex;
 	int *arguments;
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 	
 	//v teto funkci spoustim vlakna !!!!!!!!!	
 
-	//monitor = monitoring (data);
+	monitor = monitoring (data);
 	philos = pthread_init (data -> num_of_philos, philo);
 	
 	
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 	mutex_destroy(forks,num_of_phils);
 
 	my_pthreads_join(philos, data -> num_of_philos);
-	//pthread_join(monitor, NULL);
+	pthread_join(monitor, NULL);
 	free(arguments);
 	free(data -> philos);
 	free(data);

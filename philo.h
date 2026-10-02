@@ -9,10 +9,11 @@ typedef struct s_data	t_data;
 
 typedef struct s_data{
 	int num_of_philos;
-	size_t time_to_die;
+	int finished;
+	long long time_to_die;
 	size_t time_to_eat;
 	size_t time_to_sleep;
-	size_t must_eat;
+	int must_eat;
 	t_philo *philos;
 	int		died;	
 }t_data;
@@ -21,7 +22,7 @@ typedef struct s_philo{
 int 			id;
 pthread_t 		thread;
 int				meals_eaten;
-size_t			last_meal;
+long long		last_meal;
 size_t			time_to_die;
 size_t			time_to_eat;
 size_t			time_to_sleep;
