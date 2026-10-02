@@ -39,7 +39,6 @@ void *m_routine(void *arg)
 				printf (" x x philo %d chcipnul hladem :( x  bez jidla[%lld]  cas [%lld]\n", i + 1, (get_time_in_ms() - (data -> philos[i].last_meal)), get_time_in_ms());
 				printf ( "* * * * * * * * * finished [%d]\n",finished);
 			}
-			pthread_mutex_unlock(&data -> philos[i].mtx);
 			++i;
 		}
 		

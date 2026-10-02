@@ -1,23 +1,17 @@
 # include "philo.h"
 #include <stdio.h>
 
-
-
 long long count_time_to_think(t_philo *philo)
 {
 	long long time_to_think;
-
 
 	time_to_think = (philo->time_to_die - (get_time_in_ms() - philo->last_meal) - philo->time_to_eat) / 2;
 		if (time_to_think < 0)
 		    time_to_think = 0;
 		if (time_to_think > 1000)
-		    time_to_think = 200; // Maximální rozumná pauza
-
+		    time_to_think = 200;
 	return (time_to_think);
 }
-
-
 
 void *routine (void *arg)
 {
@@ -25,9 +19,7 @@ void *routine (void *arg)
 	long long time;
 	long long time_to_think;
 	long long remaining;
-
 	philo = (t_philo *)arg;
-
 
 	if (!philo)
     {
@@ -49,7 +41,7 @@ void *routine (void *arg)
 	if (philo -> id == 1)
 		ft_usleep (2);
 	pthread_mutex_lock(&philo->mtx);
-	(philo -> last_meal) = get_time_in_ms ();
+		(philo -> last_meal) = get_time_in_ms ();
 	pthread_mutex_unlock(&philo->mtx);
 
 	if (philo->data->num_of_philos % 2 != 0)
@@ -108,4 +100,3 @@ void *routine (void *arg)
 	}
 	return (0);
 }
-
