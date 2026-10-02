@@ -1,0 +1,9 @@
+Další chyby
+meals_eaten se čte i zapisuje bez mutexu. V routine děláš meals_eaten++ mimo zámek, monitor ho čte bez zámku. Je to data race. Přesuň meals_eaten++ dovnitř zamčené sekce s last_meal a v monitoru ho čti také pod zámkem.
+data->died čteš bez zámku ve filosofech i v monitoru. Chrání se ho potřeba mutexem (např. data->mtx) nebo ho číst přes funkci se zámkem.
+data->finished++ zamykáš mutexem filosofa (philo->mtx), ale čte ho monitor jiným způsobem. Každý filosof má jiný mutex, takže finished++ není chráněný proti souběhu mezi filosofy. Potřebuješ jeden společný mutex na finished.
+Monitor kontroluje meals_eaten == must_eat, ale filosof může mít meals_eaten > must_eat. Použij >=. Pozor také na případ, kdy must_eat není zadáno (typicky -1): pak se nesmí nikdo označit za "najedeného".
+Filosof, který dojedl, ale monitor ho dál kontroluje a při dalším průchodu cyklu pořád vypisuje "se nazral". Navíc po dojedení přestane aktualizovat last_meal, takže ho monitor může označit za mrtvého. Dojedené filosofy je potřeba z kontroly smrti vyřadit (což else if dělá, ale jen pokud meals_eaten sedí přesně, viz bod 4).
+Po smrti nepouštíš vidličky. Když filosof drží vidličky a ostatní skončí, nebo ft_usleep trvá dlouho, může ti program viset. ft_usleep by měl během čekání kontrolovat died.
+count_time_to_think čte last_meal bez zámku a výsledek ve větvi pro lichý počet filosofů zahazuješ (volání bez ft_usleep).
+Výpisy. printf z více vláken bez společného mutexu se může prolínat, a hlavně je pomalý, takže zdržuje kritické cesty. Pro odevzdání je ale navíc v zadání požadovaný konkrétní formát (timestamp id has taken a fork atd.), tvoje ladicí výpisy se musí odstranit.
