@@ -66,7 +66,7 @@ pthread_mutex_t	*mutex_init(int len);
 int				mutex_destroy(pthread_mutex_t *mtx, int len);
 pthread_t		*pthread_init(int len, t_philo *philos);
 void			my_pthreads_join(pthread_t *thread, int len);
-void			thread_func(t_data *data, t_philo *philo);
+void			thread_func(t_data *data);
 
 /* * * * * * time.c * * * * * */
 

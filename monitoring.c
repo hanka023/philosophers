@@ -17,7 +17,7 @@ void *m_routine(void *arg)
 		finished = 0;
 		while (i < (data -> num_of_philos))
 		{
-			printf("MONITOR philo %d address: %p\n", data->philos[i].id, (void *)&data->philos[i]);
+			//printf("MONITOR philo %d address: %p\n", data->philos[i].id, (void *)&data->philos[i]);
 			pthread_mutex_lock(&data -> philos[i].mtx);
 			last = data -> philos[i].last_meal;
 			//printf (YELLOW" * * * * * philo %d meals eaten %d  time [%lld]\n"RESET, data ->philos[i].id, data -> philos[i].meals_eaten, get_time_in_ms());
@@ -26,7 +26,7 @@ void *m_routine(void *arg)
 			{
 				data->philos[i].finish = 1;
 				finished++;
-				printf ( CYAN "%d is finished\n" RESET, i + 1);
+				//printf ( CYAN "%d is finished\n" RESET, i + 1);
 			}
 				
 			else if ((data->philos[i].finish == 0) && (get_time_in_ms()-last) > (data->time_to_die))

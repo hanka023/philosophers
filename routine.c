@@ -130,7 +130,7 @@ void finished(t_philo *philo)
 void one_philo(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork);
-   	printf(YELLOW "%d has taken a fork\n" RESET,philo ->id);
+   	printf(CYAN "%d has taken a fork\n" RESET,philo ->id);
 	ft_usleep(philo->data->time_to_die);
 	pthread_mutex_unlock(philo->left_fork);
 }
@@ -140,12 +140,16 @@ void lock_forks(t_philo *philo)
 	if (philo -> id %2 == 0)
 	{	
 		pthread_mutex_lock(philo -> right_fork);
+		printf(CYAN "%d has taken a right fork\n" RESET,philo ->id);
 		pthread_mutex_lock(philo -> left_fork);
+		printf(CYAN "%d has taken a left fork\n" RESET,philo ->id);
 	}
 	else
 	{
 		pthread_mutex_lock(philo -> left_fork);
+		printf(CYAN "%d has taken a left fork\n" RESET,philo ->id);
 		pthread_mutex_lock(philo -> right_fork);
+		printf(CYAN "%d has taken a right fork\n" RESET,philo ->id);
 	}
 }
 
@@ -166,8 +170,6 @@ void *routine (void *arg)
     }
 	before_start(philo);
 
-
-	printf(CYAN"ROUTINE philo %d address: %p\n"RESET, philo->id, (void *)philo);
 
 	while (1)
 	{

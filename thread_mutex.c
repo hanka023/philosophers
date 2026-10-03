@@ -67,12 +67,12 @@ void my_pthreads_join(pthread_t *thread, int len)
 	return;
 }
 
-void thread_func(t_data *data, t_philo *philo)
+void thread_func(t_data *data)
 {
 	pthread_t *threads;
 	pthread_t monitor;
 
-	threads = pthread_init(data -> num_of_philos, philo);
+	threads = pthread_init(data -> num_of_philos, data -> philos);
 	monitor = monitoring (data);
 	my_pthreads_join(threads, data -> num_of_philos);
 	pthread_join(monitor, NULL);
