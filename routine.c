@@ -153,7 +153,6 @@ void lock_forks(t_philo *philo)
 	}
 }
 
-
 void *routine (void *arg)
 {
 	t_philo		*philo;
@@ -169,7 +168,6 @@ void *routine (void *arg)
         return(NULL) ;
     }
 	before_start(philo);
-
 
 	while (1)
 	{
