@@ -44,9 +44,9 @@ void *routine (void *arg)
 		(philo -> last_meal) = get_time_in_ms ();
 	pthread_mutex_unlock(&philo->mtx);
 
-	if (philo->data->num_of_philos % 2 != 0)
-		//ft_usleep (2);
-		count_time_to_think(philo);
+	// if (philo->data->num_of_philos % 2 != 0)
+	// 	ft_usleep (2);
+	//count_time_to_think(philo);
 
 	time = get_time_in_ms();
 
@@ -65,11 +65,11 @@ void *routine (void *arg)
 		printf ("\n \n * * * %d.kolo * * * \n\n ", w);
 		++w;
 		
-		if (philo -> data -> died == 1)
-		{
-			printf ("philo %d chcipnul * * * %lld * * *bez jidla [%lld] \n", philo -> id, time,  get_time_in_ms() -  philo -> last_meal);
-			break;
-		}
+		 if (philo -> data -> died == 1)
+		 {
+		 	printf ("philo %d chcipnul * * * %lld * * *bez jidla [%lld] \n", philo -> id, time,  get_time_in_ms() -  philo -> last_meal);
+		 	break;
+		 }
 		if (philo -> id %2 == 0)
 		{	
 			pthread_mutex_lock(philo -> right_fork);
@@ -83,11 +83,19 @@ void *routine (void *arg)
 		pthread_mutex_lock(&philo->mtx);
 		remaining = philo->time_to_die - (get_time_in_ms() - philo->last_meal);
 		printf("* * * philo %d ji, zbývá mu do smrti: %lld ms * * * cas [%lld]\n", philo->id, remaining, get_time_in_ms());
+		if (remaining <= 0)
+		{
+			printf ("philo %d chcipnul * * * %lld * * *bez jidla [%lld] \n", philo -> id, time,  get_time_in_ms() -  philo -> last_meal);
+			((philo -> data -> died) = 1);
+		}
 		(philo -> last_meal) = get_time_in_ms();
 		remaining = philo->time_to_die - (get_time_in_ms() - philo->last_meal);
+		(philo -> meals_eaten) ++;
+		if (philo -> meals_eaten == philo -> num_to_eat)
+			philo -> finish = 1;
 		printf("* * * p %d se najedl, zbývá mu do smrti: %lld ms *   cas [%lld]\n", philo->id, remaining, get_time_in_ms());
 		pthread_mutex_unlock(&philo->mtx);
-		(philo -> meals_eaten) ++;
+		
 		ft_usleep(philo -> time_to_eat);
 		pthread_mutex_unlock(philo->right_fork);
         pthread_mutex_unlock(philo->left_fork);
@@ -95,8 +103,13 @@ void *routine (void *arg)
 			break;
 		ft_usleep(philo -> time_to_sleep);
 		remaining = philo->time_to_die - (get_time_in_ms() - philo->last_meal);
-		time_to_think = count_time_to_think(philo);
-		ft_usleep(time_to_think);
+		//time_to_think = count_time_to_think(philo);
+		time_to_think = remaining / 2;
+		printf("philo id [%d]	remaining:[%lld]   time to think [%lld] \n",philo -> id, remaining, time_to_think);
+		if (remaining > 200 )
+			ft_usleep (25);
+		else if (remaining > 10)
+			ft_usleep(time_to_think);
 	}
 	return (0);
 }

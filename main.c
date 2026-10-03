@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 	pthread_t *philos;
 	pthread_t monitor;
 	t_philo		*philo;
-	//pthread_mutex_t	*mutex;
+//	pthread_mutex_t	*mutex;
 	int *arguments;
 	int len;
 	pthread_mutex_t *forks;
@@ -29,17 +29,19 @@ int main(int argc, char *argv[])
 	philo = philo_to_struct(data, forks);
 	
 	//v teto funkci spoustim vlakna !!!!!!!!!	
-
-	monitor = monitoring (data);
-	philos = pthread_init (data -> num_of_philos, philo);
+	printf ("poustim monitor\n");
 	
+	philos = pthread_init (data -> num_of_philos, philo);
+	monitor = monitoring (data);
 	
 	printf (" x x x x x x x x x x \n\n\n");
 	
 	mutex_destroy(forks,num_of_phils);
 
 	my_pthreads_join(philos, data -> num_of_philos);
+
 	pthread_join(monitor, NULL);
+
 	free(arguments);
 	free(data -> philos);
 	free(data);
