@@ -4,18 +4,27 @@
 # include <sys/time.h>
 # include "libft/libft.h"
 
+// colors
+#define RESET   "\033[0m"
+#define RED     "\033[31m"
+#define GREEN   "\033[32m"
+#define YELLOW  "\033[33m"
+#define BLUE    "\033[34m"
+#define PURPLE  "\033[35m"
+#define CYAN    "\033[36m"
+
 typedef struct s_philo	t_philo;
 typedef struct s_data	t_data;
 
 typedef struct s_data{
-	int num_of_philos;
-	int finished;
-	long long time_to_die;
-	size_t time_to_eat;
-	size_t time_to_sleep;
-	int must_eat;
-	t_philo *philos;
-	int		died;	
+	int			num_of_philos;
+	int			finished;
+	long long	time_to_die;
+	size_t		time_to_eat;
+	size_t		time_to_sleep;
+	int			must_eat;
+	t_philo		*philos;
+	int			died;	
 }t_data;
 
 typedef struct s_philo{
@@ -23,9 +32,6 @@ int 			id;
 pthread_t 		thread;
 int				meals_eaten;
 long long		last_meal;
-size_t			time_to_die;
-size_t			time_to_eat;
-size_t			time_to_sleep;
 int				num_to_eat;
 int				*dead;
 pthread_mutex_t	*left_fork;
@@ -36,32 +42,33 @@ int				died;
 int				finish;
 } t_philo;
 
-/* * * * * arguments.c * * * * */
+/* * * * * arguments.c * * * * * */
 
-t_data		*data_to_struct(int *arguments, int len, pthread_mutex_t *forks);
-t_philo		*philo_to_struct(t_data *data, pthread_mutex_t *forks);
-int			*arg_reader(int argc, char **argv);
-void		print_data(t_data *data, int len);
-
-/* * * * * * philo.c   -thread_mutex.c* * * * * */
-
-void			*routine(void *arg);
-pthread_mutex_t	*mutex_init(int len);
-pthread_t		*pthread_init(int len, t_philo *philos);
-void			my_pthreads_join(pthread_t *thread, int len);
-int				mutex_destroy(pthread_mutex_t *mtx, int len);
-
-/* * * * * * time.c * * * * * */
-
-long long	get_time_in_ms (void);
-void		ft_usleep (long long time_in_ms);
+t_data			*data_to_struct(int *arguments, int len, pthread_mutex_t *forks);
+t_philo			*philo_to_struct(t_data *data, pthread_mutex_t *forks);
+int				*arg_reader(int argc, char **argv);
+void			print_data(t_data *data, int len);
 
 /* * * * * * monitoring.c * * * * * */
 
-void	*m_routine(void *arg);
-//int		monitoring (t_data *data);  
-pthread_t monitoring (t_data *data);
+void			*m_routine(void *arg); 
+pthread_t		monitoring (t_data *data);
 
-/* * * * * * * * * * * * * * */
+/* * * * * * routine.c * * * * * * * */
 
 
+long long		count_time_to_think(t_philo *philo);
+void			*routine (void *arg);
+
+/* * * * * * thread_mutex.c * * * * */
+
+pthread_mutex_t	*mutex_init(int len);
+int				mutex_destroy(pthread_mutex_t *mtx, int len);
+pthread_t		*pthread_init(int len, t_philo *philos);
+void			my_pthreads_join(pthread_t *thread, int len);
+void			thread_func(t_data *data, t_philo *philo);
+
+/* * * * * * time.c * * * * * */
+
+long long		get_time_in_ms (void);
+void			ft_usleep (long long time_in_ms);

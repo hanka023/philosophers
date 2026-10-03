@@ -4,60 +4,60 @@ void *m_routine(void *arg)
 {
 	t_data		*data;
 	int			i;
-	int			died;
-	int			count;
 	long long	last;
-	int finished;
-	
+	int			finished;
 
-	i = 0;
-	died = 0;
 	data = (t_data *)arg;
-	count = data -> num_of_philos;
-	finished = 0;
 
-	printf (" ++++ monitoring jedee   +++   pocet filosofu [%d] +++ \n", count);
-	ft_usleep (1);
+
+	
 	while (1)
 	{
 		i = 0;
+		finished = 0;
 		while (i < (data -> num_of_philos))
 		{
+			printf("MONITOR philo %d address: %p\n", data->philos[i].id, (void *)&data->philos[i]);
 			pthread_mutex_lock(&data -> philos[i].mtx);
 			last = data -> philos[i].last_meal;
-			finished = data -> finished;
-			long long time = get_time_in_ms();
+			//printf (YELLOW" * * * * * philo %d meals eaten %d  time [%lld]\n"RESET, data ->philos[i].id, data -> philos[i].meals_eaten, get_time_in_ms());
 			pthread_mutex_unlock(&data -> philos[i].mtx);
-			printf (" * * * time[%lld]\n", time);
 			if ((data -> philos[i].meals_eaten) == (data -> must_eat))
 			{
-				printf (" x x philo %d se nazral a konci  x x\n", i + 1);
+				data->philos[i].finish = 1;
 				finished++;
+				printf ( CYAN "%d is finished\n" RESET, i + 1);
 			}
-			else if ((data -> philos[i].finish == 0) && (get_time_in_ms() - last) > (data -> time_to_die))
+				
+			else if ((data->philos[i].finish == 0) && (get_time_in_ms()-last) > (data->time_to_die))
 			{
 				(data -> philos[i].died = 1);
 				data -> died = 1;
-				died = 1;
-				//printf (" x x philo %d chcipnul hladem :( x  bez jidla[%lld] last_meal[%lld] aktualni cas [%lld]\n", i + 1, (get_time_in_ms() - (last)),last,  get_time_in_ms());
-				//printf ( "* * * * * * * * * finished [%d]\n",finished);
+				printf ( RED "%d is died\n" RESET, i + 1);
+				break;
 			}
-
 			++i;
-			if (data -> died == 1)
-				printf ( " + + + + + +  chcipli hladem + +\n");
-
 		}
-		
-		if (finished >= data -> num_of_philos)
+		if (finished >= (data -> num_of_philos) ||  (data -> died == 1))
 		{
-			printf (" vsichni dojedli !!!!!!\n");
+			data->died = 1;
 			break;
 		}
-		else if (died == 1)
-			break;
 		ft_usleep (10);
 	}
-
 	return (NULL);
+}
+
+pthread_t monitoring (t_data *data)
+{
+	pthread_t	monitor;
+	int 		m;
+
+	pthread_mutex_t *mtx;
+	mtx = &data -> philos -> mtx;
+	pthread_mutex_init(mtx, NULL);
+	m = pthread_create(&monitor, NULL, m_routine, data);
+	if (m != 0)
+		return (0);
+	return(monitor);
 }

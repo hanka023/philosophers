@@ -27,7 +27,6 @@ void print_data(t_data *data, int len)
 	printf ("time to die	%lld\n",data -> time_to_die);
 	printf ("time to eat	%ld\n",data -> time_to_eat);
 	printf ("time to sleep	%ld\n",data -> time_to_sleep);
-	
 	if ((len == 5))
 		printf("n each must eat %d\n",data -> must_eat);
 	return ;

@@ -1,6 +1,7 @@
 # include "philo.h"
 
 
+
 pthread_mutex_t *mutex_init(int len)
 {
 	pthread_mutex_t *mtx;
@@ -20,7 +21,6 @@ pthread_mutex_t *mutex_init(int len)
 
 int mutex_destroy(pthread_mutex_t *mtx, int len)
 {
-	
 	int i;
 	int s;
 
@@ -37,35 +37,21 @@ int mutex_destroy(pthread_mutex_t *mtx, int len)
 	return (0);
 }
 
-pthread_t monitoring (t_data *data)
-{
-	pthread_t	monitor;
-	int m;
-
-	pthread_mutex_t *mtx;
-	mtx = &data -> philos -> mtx;
-	pthread_mutex_init(mtx, NULL);
-	m = pthread_create(&monitor, NULL, m_routine, data);
-	if (m != 0)
-		return (0);
-	return(monitor);
-}
-
 pthread_t *pthread_init(int len, t_philo *philos)
 {
-	pthread_t	*thread;
-	int i;
+	pthread_t	*threads;
+	int 		i;
 
 	i = 0;
-	thread = malloc(sizeof (pthread_t) * len);
-	if (!thread)
+	threads = malloc(sizeof (pthread_t) * len);
+	if (!threads)
 		return (NULL);
 	while (i < len)
 	{
-		pthread_create(&thread[i], NULL, &routine, &philos[i]);
+		pthread_create(&threads[i], NULL, &routine, &philos[i]);
 		i++;
 	}
-	return (thread);
+	return (threads);
 }
 
 void my_pthreads_join(pthread_t *thread, int len)
@@ -76,9 +62,21 @@ void my_pthreads_join(pthread_t *thread, int len)
 	while (i < len)
 	{
 		pthread_join(thread[i], NULL);
-		printf (" thread %d join\n", i+1 );
-		fflush(stdout);
 		++i;
 	}
 	return;
 }
+
+void thread_func(t_data *data, t_philo *philo)
+{
+	pthread_t *threads;
+	pthread_t monitor;
+
+	threads = pthread_init(data -> num_of_philos, philo);
+	monitor = monitoring (data);
+	my_pthreads_join(threads, data -> num_of_philos);
+	pthread_join(monitor, NULL);
+	free(threads);
+}
+
+
