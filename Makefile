@@ -3,26 +3,25 @@ NAME = philo
 
 
 # Překladač a příznaky
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -I libft -I gnl -I utils  -I fPie -g -fsanitize=address
-# CFLAGS = -Wall -Wextra -Werror -I libft -I gnl -I utils  -I fPie -g 
-# DBGF = -g -fsanitize=address,leak
-# DBGFLAGS = -g -fsanitize=leak,address,origin
+CC = cc
+
+CFLAGS = -Wall -Wextra -Werror -I libft -I gnl -I utils  -I fPie 
+DEBUG_FLAGS = -g -fsanitize=thread
+ASAN_FLAGS = -g -fsanitize=address
 
 LIBFT_DIR   = libft
 LIBFT       = $(LIBFT_DIR)/libft.a
 LDFLAGS     = -Llibft -lft 
 
 # Seznam všech .c souborů
-SRC =	main.c			\
-		arguments.c 	\
-		monitoring.c 	\
-		routine.c		\
-		struct.c		\
-		thread_mutex.c 	\
-		time.c 			\
+SRC =	philos/main.c			\
+		philos/monitoring.c 	\
+		philos/routine.c		\
+		philos/philo_actions.c \
+		philos/struct.c		\
+		philos/thread_mutex.c 	\
+		philos/time.c 			
 		
-	
 # Změna koncovek .c na .o pro objekty
 OBJ = $(SRC:.c=.o)
 
@@ -48,4 +47,12 @@ fclean: clean
 # Pravidlo pro "přestavbu" od nuly
 re: fclean all
 
-.PHONY: all clean fclean re
+# Pravidlo pro debug: přenastaví CFLAGS na DEBUG_FLAGS a znovu zkompiluje
+debug: CFLAGS += $(DEBUG_FLAGS)
+debug: re
+
+asan: CFLAGS += -g -fsanitize=address -fsanitize=leak
+asan: re
+
+.PHONY: all clean fclean re debug asan
+
