@@ -20,6 +20,7 @@ typedef struct s_data{
 	int			num_of_philos;
 	int			finished;
 	long long	time_to_die;
+	long long	start_time;
 	size_t		time_to_eat;
 	size_t		time_to_sleep;
 	int			must_eat;

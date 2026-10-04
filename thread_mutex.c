@@ -7,6 +7,12 @@ pthread_mutex_t *mutex_init(int len)
 	pthread_mutex_t *mtx;
 	int i;
 
+	// pthread_mutex_t *mtx;
+	// mtx = &data -> philos -> mtx;
+
+	//pthread_mutex_init(mtx, NULL);
+	//pthread_mutex_init(data->philos[i].mtx, NULL);
+
 	i = 0;
 	mtx = malloc(sizeof(pthread_mutex_t) * len);
 	if (!mtx)

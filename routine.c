@@ -15,98 +15,6 @@ long long count_time_to_think(t_philo *philo)
 	return (time_to_think);
 }
 
-
-
-// void *routine (void *arg)
-// {
-// 	t_philo		*philo;
-// 	long long	time_to_think;
-// 	long long	remaining;
-
-// 	philo = (t_philo *)arg;
-// 	if (!philo)
-//     {
-//         printf("CHYBA: philo je NULL!\n");
-//         return (NULL);
-//     }
-//     if (!philo->data)
-//     {
-//         printf("CHYBA: philo->data je NULL!\n");
-//         return (NULL);
-//     }
-// 	if (philo->data->num_of_philos == 1)
-//     {
-//         return 0 ;
-//     }
-// 	if ((philo -> id) %2 != 0)
-// 		ft_usleep(1);
-	
-// 	if (philo -> id == 1)
-// 		ft_usleep (2);
-// 	pthread_mutex_lock(&philo->mtx);
-// 		(philo -> last_meal) = get_time_in_ms ();
-// 	pthread_mutex_unlock(&philo->mtx);
-
-
-// 	while (1)
-// 	{
-// 		if ((philo -> meals_eaten) >= (philo -> num_to_eat))
-// 		{
-// 			printf("philo %d is finished\n", philo -> id);
-// 			pthread_mutex_lock(&philo->mtx);
-// 			(philo->data->finished) ++;
-// 			printf ("finished philos [%d]\n",(philo->data->finished) );
-// 			pthread_mutex_unlock(&philo->mtx);
-// 			break;
-// 		}
-// 		if (philo -> data -> died == 1)
-// 			break;
-// 		if (philo -> id %2 == 0)
-// 		{	
-// 			pthread_mutex_lock(philo -> right_fork);
-// 			pthread_mutex_lock(philo -> left_fork);
-// 		}
-// 		else
-// 		{
-// 			pthread_mutex_lock(philo -> left_fork);
-// 			pthread_mutex_lock(philo -> right_fork);
-// 		}
-// 		pthread_mutex_lock(&philo->mtx);
-	
-// 		(philo -> last_meal) = get_time_in_ms();
-// 		printf(GREEN "%d is eating\n" RESET, philo->id);
-// 		remaining = philo->data->time_to_die - (get_time_in_ms() - philo->last_meal);
-// 		(philo -> meals_eaten) ++;
-// 		if (philo -> meals_eaten == philo -> num_to_eat)
-// 			philo -> finish = 1;
-// 		//printf("* * * p %d se najedl, zbývá mu do smrti: %lld ms *   cas [%lld]\n", philo->id, remaining, get_time_in_ms());
-// 		pthread_mutex_unlock(&philo->mtx);
-		
-// 		ft_usleep(philo ->data-> time_to_eat);
-// 		pthread_mutex_unlock(philo->right_fork);
-//         pthread_mutex_unlock(philo->left_fork);
-// 		if (philo -> data -> died == 1)
-// 			break;
-// 		ft_usleep(philo ->data-> time_to_sleep);
-// 		remaining = philo->data->time_to_die - (get_time_in_ms() - philo->last_meal);
-// 		//time_to_think = count_time_to_think(philo);
-// 		time_to_think = remaining / 2;
-// 		//printf("philo id [%d]	remaining:[%lld]   time to think [%lld] \n",philo -> id, remaining, time_to_think);
-// 		if (remaining > 200 )
-// 			ft_usleep (25);
-// 		else if (remaining > 10)
-// 			ft_usleep(time_to_think);
-// 	}
-// 	return (0);
-// }
-
-
-
-// int start_routine(t_philo *philo)
-// {
-	
-// }
-
 void before_start(t_philo *philo)
 {
 	if ((philo -> id) %2 != 0)
@@ -116,40 +24,47 @@ void before_start(t_philo *philo)
 	pthread_mutex_lock(&philo->mtx);
 	(philo -> last_meal) = get_time_in_ms ();
 	pthread_mutex_unlock(&philo->mtx);
+	philo->data->start_time =  get_time_in_ms();
 }
 
 void finished(t_philo *philo)
 {
-	printf("philo %d is finished\n", philo -> id);
 	pthread_mutex_lock(&philo->mtx);
 	(philo->data->finished) ++;
-	printf ("finished philos [%d]\n",(philo->data->finished) );
 	pthread_mutex_unlock(&philo->mtx);
 }
 
 void one_philo(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork);
-   	printf(CYAN "%d has taken a fork\n" RESET,philo ->id);
+   	printf(CYAN "%d has taken a left fork\n" RESET,philo ->id);
 	ft_usleep(philo->data->time_to_die);
 	pthread_mutex_unlock(philo->left_fork);
 }
 
 void lock_forks(t_philo *philo)
 {
+	long long timestamp;
+
 	if (philo -> id %2 == 0)
 	{	
 		pthread_mutex_lock(philo -> right_fork);
+		timestamp = (get_time_in_ms() - philo->data->start_time);
+		printf(CYAN "%lld	%d has taken a right fork\n" RESET,timestamp, philo ->id);
 		printf(CYAN "%d has taken a right fork\n" RESET,philo ->id);
 		pthread_mutex_lock(philo -> left_fork);
-		printf(CYAN "%d has taken a left fork\n" RESET,philo ->id);
+		timestamp = (get_time_in_ms() - philo->data->start_time);
+		printf(CYAN "%lld	%d has taken a left fork\n" RESET,timestamp, philo ->id);
+		
 	}
 	else
 	{
 		pthread_mutex_lock(philo -> left_fork);
-		printf(CYAN "%d has taken a left fork\n" RESET,philo ->id);
+		timestamp = (get_time_in_ms() - philo->data->start_time);
+		printf(CYAN "%lld	%d has taken a left fork\n" RESET,timestamp, philo ->id);
 		pthread_mutex_lock(philo -> right_fork);
-		printf(CYAN "%d has taken a right fork\n" RESET,philo ->id);
+		timestamp = (get_time_in_ms() - philo->data->start_time);
+		printf(CYAN "%lld	%d has taken a right fork\n" RESET,timestamp, philo ->id);
 	}
 }
 
@@ -158,6 +73,7 @@ void *routine (void *arg)
 	t_philo		*philo;
 	long long	time_to_think;
 	long long	remaining;
+	long long	timestamp; 
 
 	philo = (t_philo *)arg;
 	if (!philo || !philo->data)
@@ -168,7 +84,8 @@ void *routine (void *arg)
         return(NULL) ;
     }
 	before_start(philo);
-
+	
+	timestamp = get_time_in_ms() - philo->data->start_time;
 	while (1)
 	{
 		if ((philo -> meals_eaten) >= (philo -> num_to_eat))
@@ -183,10 +100,10 @@ void *routine (void *arg)
 		pthread_mutex_lock(&philo->mtx);
 	
 		(philo -> last_meal) = get_time_in_ms();
-		printf(GREEN "%d is eating\n" RESET, philo->id);
+		timestamp = get_time_in_ms() - philo->data->start_time;
+		printf(GREEN "%lld	%d is eating\n" RESET, timestamp, philo->id);
 		remaining = philo->data->time_to_die - (get_time_in_ms() - philo->last_meal);
 		(philo -> meals_eaten) ++;
-		printf (CYAN" * * * * * philo %d meals eaten %d  time [%lld]\n"RESET, philo -> id, philo -> meals_eaten, get_time_in_ms() );
 		if (philo -> meals_eaten == philo -> num_to_eat)
 			philo -> finish = 1;
 		
