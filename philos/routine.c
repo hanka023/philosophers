@@ -6,7 +6,7 @@
 /*   By: haskalov <haskalov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 13:37:42 by haskalov          #+#    #+#             */
-/*   Updated: 2026/10/04 23:16:37 by haskalov         ###   ########.fr       */
+/*   Updated: 2026/10/04 23:38:46 by haskalov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,13 @@ void	lock_forks(t_philo *philo)
 {
 	long long	ts;
 	
+	if (is_simulation_over(philo))
+		return;
 	if (philo -> id % 2 == 0)
 	{
 		pthread_mutex_lock(philo -> right_fork);
 		ts = (get_time_in_ms() - philo -> data -> start_time);
+		
 		printf(CYAN"%lld	%d has taken a right fork\n"RESET, ts, philo -> id);
 		pthread_mutex_lock(philo -> left_fork);
 		ts = (get_time_in_ms() - philo -> data -> start_time);
@@ -83,6 +86,8 @@ void	*routine(void *arg)
 	}
 	while (1)
 	{
+		if (is_simulation_over(philo))
+			break;
 		if ((philo -> meals_eaten) >= (philo -> num_to_eat))
 		{
 			finished(philo);
@@ -91,10 +96,6 @@ void	*routine(void *arg)
 		eating (philo);
 		sleeping (philo);
 		thinking (philo);
-		if (is_simulation_over(philo))
-		break;
-		// if (philo -> data -> died == 1)
-		// 	break ;
 	}
 	return (0);
 }

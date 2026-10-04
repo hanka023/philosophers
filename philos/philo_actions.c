@@ -6,7 +6,7 @@
 /*   By: haskalov <haskalov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 13:37:42 by haskalov          #+#    #+#             */
-/*   Updated: 2026/10/04 23:15:10 by haskalov         ###   ########.fr       */
+/*   Updated: 2026/10/04 23:30:47 by haskalov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,17 @@ void	eating(t_philo *philo)
 
 	if (is_simulation_over(philo))
 		return;
-	
-	//printf (" [%d] [%d] philo chcipl\n", is_simulation_over(philo), philo -> id);
-
 	lock_forks(philo);
 	pthread_mutex_lock(&philo -> mtx);
 	(philo -> last_meal) = get_time_in_ms();
 	timestamp = get_time_in_ms() - philo -> data -> start_time;
+	if (is_simulation_over(philo))
+    {
+        pthread_mutex_unlock(&philo->mtx);
+		pthread_mutex_unlock (philo -> right_fork);
+		pthread_mutex_unlock (philo -> left_fork);
+        return ;
+    }
 	printf(GREEN "%lld	%d is eating\n" RESET, timestamp, philo->id);
 	(philo -> meals_eaten)++;
 	if (philo -> meals_eaten == philo -> num_to_eat)
