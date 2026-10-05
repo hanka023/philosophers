@@ -5,7 +5,7 @@
 
 ## Description
 
-This project is a demonstration of multithread synchronization in real time.
+### This project is a demonstration of multithread synchronization in real time.
 
 threads are presented as philosophers, shared recource is food, shared mutexes are forks
 
