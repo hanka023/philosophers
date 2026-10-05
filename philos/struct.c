@@ -26,7 +26,7 @@ t_data	*data_to_struct(int *arguments, int len, pthread_mutex_t *forks)
 	if (len == 5)
 		data -> must_eat = arguments[4];
 	else
-		data -> must_eat = 10;
+		data -> must_eat = -1;
 	data -> forks = forks;
 	data -> finished = 0;
 	data -> died = 0;
