@@ -88,6 +88,7 @@ void	thread_func(t_data *data)
 	pthread_t	*threads;
 	pthread_t	monitor;
 
+	data -> start_time = get_time_in_ms();
 	threads = pthread_init(data -> num_of_philos, data -> philos);
 	monitor = monitoring (data);
 	my_pthreads_join(threads, data -> num_of_philos);

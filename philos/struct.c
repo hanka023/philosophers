@@ -26,7 +26,7 @@ t_data	*data_to_struct(int *arguments, int len, pthread_mutex_t *forks)
 	if (len == 5)
 		data -> must_eat = arguments[4];
 	else
-		data -> must_eat = -1;
+		data -> must_eat = 10;
 	data -> forks = forks;
 	data -> finished = 0;
 	data -> died = 0;
@@ -53,7 +53,7 @@ t_philo	*philo_to_struct(t_data *data, pthread_mutex_t *forks)
 		philos[i].right_fork = &forks[(i + 1) % len];
 		philos[i].meals_eaten = 0;
 		philos[i].died = 0;
-		philos[i].num_to_eat = data -> must_eat;
+		philos[i].to_eat = data -> must_eat;
 		philos[i].last_meal = get_time_in_ms();
 		philos[i].finish = 0;
 		philos[i].data = data;

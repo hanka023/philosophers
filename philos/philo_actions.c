@@ -30,8 +30,33 @@ void	sleeping(t_philo *philo)
 	if (is_simulation_over(philo))
 		return ;
 	timestamp = (get_time_in_ms() - philo -> data -> start_time);
-	printf(PURPLE "%lld	%d  is sleeping\n" RESET, timestamp, philo -> id);
+	printf(PURPLE "%lld	%d is sleeping\n" RESET, timestamp, philo -> id);
 	ft_usleep(philo -> data -> time_to_sleep, philo -> data);
+}
+
+long long	t_think(t_philo *philo)
+{
+	long long	time_since_meal;
+	long long	time_to_think;
+
+	if (philo->data->num_of_philos % 2 == 0)
+		return (0);
+
+	time_to_think = (philo->data->time_to_eat * 2) - philo->data->time_to_sleep;
+	if (time_to_think < 0)
+		time_to_think = 0;
+
+	pthread_mutex_lock(&philo->mtx);
+	time_since_meal = get_time_in_ms() - philo->last_meal;
+	pthread_mutex_unlock(&philo->mtx);
+
+
+	if (time_to_think > (philo->data->time_to_die - time_since_meal) / 2)
+		time_to_think = (philo->data->time_to_die - time_since_meal) / 2;
+
+	if (time_to_think < 0)
+		time_to_think = 0;
+	return (time_to_think);
 }
 
 void	thinking(t_philo *philo)
@@ -39,27 +64,21 @@ void	thinking(t_philo *philo)
 	long long	time;
 	long long	time_to_think;
 	long long	timestamp;
-	long long	time_since_last_meal;
 
 	if (is_simulation_over(philo))
 		return ;
 	time = get_time_in_ms();
 	timestamp = (time - (philo -> data -> start_time));
 	pthread_mutex_lock(&philo->mtx);
-	time_since_last_meal = time - philo -> last_meal;
 	pthread_mutex_unlock(&philo->mtx);
-	time_to_think = (philo -> data -> time_to_die - time_since_last_meal) / 2;
-	if (time_to_think > 200)
+	time_to_think = t_think(philo);
+	if (time_to_think > 0)
 	{
 		printf(PINK "%lld	%d  is thinking\n" RESET, timestamp, philo->id);
-		ft_usleep (100, philo -> data);
-	}
-	else if (time_to_think > 10)
-	{
-		printf(PINK "%lld	%d  is thinking\n" RESET, timestamp, philo->id);
-		ft_usleep(time_to_think, philo -> data);
+		ft_usleep (time_to_think, philo -> data);
 	}
 }
+
 
 void	eating(t_philo *philo)
 {
@@ -70,6 +89,7 @@ void	eating(t_philo *philo)
 	lock_forks(philo);
 	pthread_mutex_lock(&philo -> mtx);
 	(philo -> last_meal) = get_time_in_ms();
+	pthread_mutex_unlock (&philo -> mtx);
 	timestamp = get_time_in_ms() - philo -> data -> start_time;
 	if (is_simulation_over(philo))
     {
@@ -80,9 +100,8 @@ void	eating(t_philo *philo)
     }
 	printf(GREEN "%lld	%d is eating\n" RESET, timestamp, philo->id);
 	(philo -> meals_eaten)++;
-	if (philo -> meals_eaten == philo -> num_to_eat)
+	if (philo -> meals_eaten == philo -> to_eat)
 		philo -> finish = 1;
-	pthread_mutex_unlock (&philo -> mtx);
 	ft_usleep (philo -> data -> time_to_eat, philo -> data);
 	pthread_mutex_unlock (philo -> right_fork);
 	pthread_mutex_unlock (philo -> left_fork);

@@ -20,8 +20,8 @@ void    print_death(t_data *data, int i, long long	timestamp)
         pthread_mutex_lock(&data->died_mutex);
 		data -> died = 1;
 		pthread_mutex_unlock(&data->died_mutex);
-		printf(RED "%lld	%d is died\n" RESET, timestamp, i + 1);
-  
+		printf(RED "%lld	%d died\n" RESET, timestamp, i + 1);
+
     }
     pthread_mutex_unlock(&data->print_mutex);
 }
@@ -40,7 +40,7 @@ int	died(t_data *data, int i)
 	if ((data->philos[i].finish == 0) && (time - last) > (data->time_to_die))
 	{
 		(data -> philos[i].died = 1);
-		timestamp = (get_time_in_ms() - data -> start_time);
+		timestamp = (get_time_in_ms() - (data -> start_time));
 		print_death(data, i, timestamp);
 		return (1);
 	}
