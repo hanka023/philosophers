@@ -33,10 +33,6 @@ int	died(t_data *data, int i)
 	long long	last;
 
 	time = get_time_in_ms();
-
-	
-	//timestamp = time - data -> start_time;
-	
 	pthread_mutex_lock(&data -> philos[i].mtx);
 	last = data -> philos[i].last_meal;
 	pthread_mutex_unlock(&data -> philos[i].mtx);
@@ -44,12 +40,8 @@ int	died(t_data *data, int i)
 	if ((data->philos[i].finish == 0) && (time - last) > (data->time_to_die))
 	{
 		(data -> philos[i].died = 1);
-		// data -> died = 1;
 		timestamp = (get_time_in_ms() - data -> start_time);
-
-
 		print_death(data, i, timestamp);
-		//printf(RED "%lld	%d is died\n" RESET, timestamp, i + 1);
 		return (1);
 	}
 	else

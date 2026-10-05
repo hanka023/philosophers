@@ -18,6 +18,7 @@ SRC =	philos/main.c			\
 		philos/monitoring.c 	\
 		philos/routine.c		\
 		philos/philo_actions.c \
+		philos/philo_forking.c \
 		philos/struct.c		\
 		philos/thread_mutex.c 	\
 		philos/time.c 			

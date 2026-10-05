@@ -60,7 +60,7 @@ typedef struct s_philo
 	int				meals_eaten;
 	int				died;
 	long long		last_meal;
-	int				num_to_eat;
+	int				to_eat;
 	int				finish;
 	t_data			*data;
 }	t_philo;
@@ -78,7 +78,6 @@ pthread_t		monitoring(t_data *data);
 void			before_start(t_philo *philo);
 void			finished(t_philo *philo);
 void			one_philo(t_philo *philo);
-void			lock_forks(t_philo *philo);
 void			*routine(void *arg);
 
 /* * * * * * philo_action.c * * * * */
@@ -87,6 +86,12 @@ int				is_simulation_over(t_philo *philo);
 void			sleeping(t_philo *philo);
 void			thinking(t_philo *philo);
 void			eating(t_philo *philo);
+
+/* * * * * * philo_forking.c * * * * */
+
+void			even(t_philo *philo);
+void			odd(t_philo *philo);
+void			lock_forks(t_philo *philo);
 
 /* * * * * struct.c * * * * * */
 
