@@ -1,9 +1,9 @@
 
-*This project has been created as part of the 42 curriculum by haskalov 
+* This project has been created as part of the 42 curriculum by haskalov 
 
-#Philosophers
+# Philosophers
 
-##Description
+## Description
 
 This project is a demonstration of multithread synchronization in real time.
 
@@ -24,7 +24,7 @@ number_of_cycles - how many cycles (meals) should run
 if there is no number of cycles, simulation should run until user stops it
 
 
-##Instructions
+## Instructions
 
 compile: make 
 
@@ -32,13 +32,13 @@ start: ./philo [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sle
 
 example: ./philo 2 800 200 200 3
 
-##Resources
+## Resources
 
 Linux programming interface https://broman.dev/download/The%20Linux%20Programming%20Interface.pdf  
 
 Code Vault youtube tutorial
 
-###Guides:
+### Guides:
  
 https://github.com/mcombeau/philosophers   // my faforite  ![alt text](philosophersn.png)
 
@@ -47,6 +47,6 @@ https://github.com/TommyJD93/Philosophers  // good code
 https://github.com/MarkosComK/42-Philosophers   /// some new guide 
 
 
-###Ai used
+### Ai used
 
 Ai used as advisor, for helping debugging and couting time for usleep in tinking section.
