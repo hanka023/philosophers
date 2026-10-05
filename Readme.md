@@ -36,7 +36,7 @@ example: ./philo 2 800 200 200 3
 
 Linux programming interface https://broman.dev/download/The%20Linux%20Programming%20Interface.pdf  
 
-Code Vault youtube tutorial
+Code Vault tutorial https://code-vault.net/course/6q6s9eerd0:1609007479575
 
 ### Guides:
  
