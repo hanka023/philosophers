@@ -23,19 +23,16 @@ int	is_simulation_over(t_philo *philo)
 	return (result);
 }
 
-
 void	sleeping(t_philo *philo)
 {
 	long long	timestamp;
 	
 	if (is_simulation_over(philo))
 		return ;
-
 	timestamp = (get_time_in_ms() - philo -> data -> start_time);
 	printf(PURPLE "%lld	%d  is sleeping\n" RESET, timestamp, philo -> id);
 	ft_usleep(philo -> data -> time_to_sleep, philo -> data);
 }
-
 
 void	thinking(t_philo *philo)
 {
@@ -43,7 +40,6 @@ void	thinking(t_philo *philo)
 	long long	time_to_think;
 	long long	timestamp;
 	long long	time_since_last_meal;
-
 
 	if (is_simulation_over(philo))
 		return ;
@@ -77,7 +73,7 @@ void	eating(t_philo *philo)
 	timestamp = get_time_in_ms() - philo -> data -> start_time;
 	if (is_simulation_over(philo))
     {
-        pthread_mutex_unlock(&philo->mtx);
+        pthread_mutex_unlock (&philo -> mtx);
 		pthread_mutex_unlock (philo -> right_fork);
 		pthread_mutex_unlock (philo -> left_fork);
         return ;

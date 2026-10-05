@@ -40,12 +40,16 @@ int	mutex_destroy(pthread_mutex_t *mtx, int len, t_data *data)
 	{
 		s = pthread_mutex_destroy(&mtx[i]);
 		if (s != 0)
-			printf ("error mutex destroy \n");
+			printf ("error mutex destroy mtx[%d]\n", i);
 		i++;
 	}
 	free (mtx);
-	pthread_mutex_destroy(&data->print_mutex);
-    pthread_mutex_destroy(&data->died_mutex);
+	s = pthread_mutex_destroy(&data->print_mutex);
+	if (s != 0)
+		printf ("error mutex destroy printf_mutex\n");
+    s = pthread_mutex_destroy(&data->died_mutex);
+	if (s != 0)
+		printf ("error mutex destroy dead_mutex\n");
 	return (0);
 }
 
