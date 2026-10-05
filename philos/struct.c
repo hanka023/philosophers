@@ -6,11 +6,37 @@
 /*   By: haskalov <haskalov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 13:37:42 by haskalov          #+#    #+#             */
-/*   Updated: 2026/10/04 22:40:02 by haskalov         ###   ########.fr       */
+/*   Updated: 2026/10/05 16:49:48 by haskalov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_atoi(const char *str)
+{
+	int	i;
+	int	sign;
+	int	result;
+
+	i = 0;
+	sign = 1;
+	result = 0;
+	while ((str[i] == ' ') || (str[i] >= 9 && str[i] <= 13))
+		++i;
+	if ((str[i] == '-') || (str[i] == '+'))
+	{
+		if (str[i] == '-')
+			sign = (sign * (-1));
+		++i;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		result = (result * 10) + (str[i] - 48);
+		++i;
+	}
+	result = (result * sign);
+	return (result);
+}
 
 t_data	*data_to_struct(int *arguments, int len, pthread_mutex_t *forks)
 {

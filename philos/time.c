@@ -6,7 +6,7 @@
 /*   By: haskalov <haskalov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 13:37:42 by haskalov          #+#    #+#             */
-/*   Updated: 2026/10/04 23:05:48 by haskalov         ###   ########.fr       */
+/*   Updated: 2026/10/05 16:48:42 by haskalov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ long long	get_time_in_ms(void)
 
 void	ft_usleep(long long time_in_ms, t_data *data)
 {
-	long long	start_time;
+	long long	start;
 
-	start_time = get_time_in_ms();
-	while ((get_time_in_ms() - start_time) < (long long) time_in_ms)
+	start = get_time_in_ms();
+	while ((get_time_in_ms() - start) < time_in_ms)
 	{
-		usleep(100);
-		if (data -> died == 1)
+		if (simulation_over(data))
 			return ;
+		usleep(100);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: haskalov <haskalov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 13:37:42 by haskalov          #+#    #+#             */
-/*   Updated: 2026/10/04 22:41:05 by haskalov         ###   ########.fr       */
+/*   Updated: 2026/10/05 16:49:21 by haskalov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ pthread_mutex_t	*mutex_init(int len)
 	while (i < len)
 	{
 		pthread_mutex_init(&forks[i], NULL);
+		if (!forks)
+			return (NULL);
 		i++;
 	}
 	return (forks);
@@ -47,7 +49,7 @@ int	mutex_destroy(pthread_mutex_t *mtx, int len, t_data *data)
 	s = pthread_mutex_destroy(&data->print_mutex);
 	if (s != 0)
 		printf ("error mutex destroy printf_mutex\n");
-    s = pthread_mutex_destroy(&data->died_mutex);
+	s = pthread_mutex_destroy(&data->died_mutex);
 	if (s != 0)
 		printf ("error mutex destroy dead_mutex\n");
 	return (0);

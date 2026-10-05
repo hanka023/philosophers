@@ -6,15 +6,15 @@
 /*   By: haskalov <haskalov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 13:37:42 by haskalov          #+#    #+#             */
-/*   Updated: 2026/10/04 23:04:34 by haskalov         ###   ########.fr       */
+/*   Updated: 2026/10/05 16:55:34 by haskalov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <unistd.h> 
+#include <stdlib.h>
 #include <pthread.h>
 #include <sys/time.h>
-#include "../libft/libft.h"
 
 // colors
 #define RESET   "\033[0m"
@@ -75,6 +75,7 @@ pthread_t		monitoring(t_data *data);
 
 /* * * * * * routine.c * * * * * * * */
 
+//void			philo_job(t_philo *philo);
 void			before_start(t_philo *philo);
 void			finished(t_philo *philo);
 void			one_philo(t_philo *philo);
@@ -83,18 +84,21 @@ void			*routine(void *arg);
 /* * * * * * philo_action.c * * * * */
 
 int				is_simulation_over(t_philo *philo);
+int				simulation_over(t_data *data);
 void			sleeping(t_philo *philo);
 void			thinking(t_philo *philo);
 void			eating(t_philo *philo);
 
 /* * * * * * philo_forking.c * * * * */
 
-void			even(t_philo *philo);
-void			odd(t_philo *philo);
-void			lock_forks(t_philo *philo);
+int				even(t_philo *philo);
+int				odd(t_philo *philo);
+int				lock_forks(t_philo *philo);
+void			unlock_forks(t_philo *philo);
 
 /* * * * * struct.c * * * * * */
 
+int				ft_atoi(const char *str);
 t_data			*data_to_struct(int *args, int len, pthread_mutex_t *forks);
 t_philo			*philo_to_struct(t_data *data, pthread_mutex_t *forks);
 int				*arg_reader(int argc, char **argv);
