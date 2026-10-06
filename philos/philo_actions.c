@@ -6,7 +6,7 @@
 /*   By: haskalov <haskalov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 13:37:42 by haskalov          #+#    #+#             */
-/*   Updated: 2026/10/05 18:14:15 by haskalov         ###   ########.fr       */
+/*   Updated: 2026/10/06 15:40:20 by haskalov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,17 @@ int	is_simulation_over(t_philo *philo)
 		return (0);
 }
 
+int	is_philo_died(t_philo *philo)
+{
+	int	result;
+
+	result = 0;
+	pthread_mutex_lock(&philo -> data -> died_mutex);
+	result = philo -> data -> died;
+	pthread_mutex_unlock(&philo -> data -> died_mutex);
+	return (result);
+}
+
 int	simulation_over(t_data *data)
 {
 	int	result;
@@ -45,14 +56,12 @@ int	simulation_over(t_data *data)
 
 void	sleeping(t_philo *philo)
 {
-	long long	timestamp;
+	//long long	timestamp;
 	
 	if (is_simulation_over(philo))
 		return;
-	timestamp = (get_time_in_ms() - philo -> data -> start_time);
-	pthread_mutex_lock(&philo -> data -> print_mutex);
-	printf(PURPLE "%lld	%d is sleeping\n" RESET, timestamp, philo -> id);
-	pthread_mutex_unlock(&philo -> data -> print_mutex);
+	//timestamp = (get_time_in_ms() - philo -> data -> start_time);
+	print_sleeping(philo);
 	ft_usleep(philo -> data -> time_to_sleep, philo -> data);	
 }
 
@@ -84,25 +93,22 @@ void	thinking(t_philo *philo)
 {
 	long long	time;
 	long long	time_to_think;
-	long long	timestamp;
+	//long long	timestamp;
 
 	if (is_simulation_over(philo))
 		return ;
 	time = get_time_in_ms();
-	timestamp = (time - (philo -> data -> start_time));
+	//timestamp = (time - (philo -> data -> start_time));
 	time_to_think = t_think(philo);
 	if (time_to_think > 0)
 	{
-		pthread_mutex_lock(&philo -> data -> print_mutex);
-		printf(PINK "%lld	%d  is thinking\n" RESET, timestamp, philo->id);
-		pthread_mutex_unlock(&philo -> data -> print_mutex);
+		print_thinking(philo);
 		ft_usleep (time_to_think, philo -> data);
 	}
 }
 
 void	eating(t_philo *philo)
 {
-	long long	timestamp;
 
 	if (is_simulation_over(philo))
 		return;
@@ -111,15 +117,14 @@ void	eating(t_philo *philo)
 	pthread_mutex_lock(&philo -> mtx);
 	(philo -> last_meal) = get_time_in_ms();
 	pthread_mutex_unlock (&philo -> mtx);
-	timestamp = get_time_in_ms() - philo -> data -> start_time;
+
 	if (is_simulation_over(philo))
     {
 		unlock_forks(philo);
         return ;
     }
-	pthread_mutex_lock(&philo -> data -> print_mutex);
-	printf(GREEN "%lld	%d is eating\n" RESET, timestamp, philo->id);
-	pthread_mutex_unlock(&philo -> data -> print_mutex);
+	//timestamp = get_time_in_ms() - philo -> data -> start_time;
+	print_eating(philo);
 	pthread_mutex_lock(&philo -> mtx);
 	(philo -> meals_eaten)++;
 	if (philo -> meals_eaten == philo -> to_eat)

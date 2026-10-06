@@ -13,6 +13,7 @@ SRC =   philos/main.c           \
         philos/routine.c        \
         philos/philo_actions.c  \
         philos/philo_forking.c  \
+		philos/print_function.c \
         philos/struct.c         \
         philos/thread_mutex.c   \
         philos/time.c           

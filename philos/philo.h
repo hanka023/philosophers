@@ -6,7 +6,7 @@
 /*   By: haskalov <haskalov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 13:37:42 by haskalov          #+#    #+#             */
-/*   Updated: 2026/10/05 16:55:34 by haskalov         ###   ########.fr       */
+/*   Updated: 2026/10/06 15:36:58 by haskalov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ pthread_t		monitoring(t_data *data);
 
 /* * * * * * routine.c * * * * * * * */
 
-//void			philo_job(t_philo *philo);
 void			before_start(t_philo *philo);
 void			finished(t_philo *philo);
 void			one_philo(t_philo *philo);
@@ -95,6 +94,13 @@ int				even(t_philo *philo);
 int				odd(t_philo *philo);
 int				lock_forks(t_philo *philo);
 void			unlock_forks(t_philo *philo);
+
+/* * * * print_function.c * * * */
+
+void			print_fork(t_philo *philo);
+void			print_eating(t_philo *philo);
+void			print_sleeping(t_philo *philo);
+void			print_thinking(t_philo *philo);
 
 /* * * * * struct.c * * * * * */
 
