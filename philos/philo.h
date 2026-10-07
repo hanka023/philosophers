@@ -6,7 +6,7 @@
 /*   By: haskalov <haskalov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 13:37:42 by haskalov          #+#    #+#             */
-/*   Updated: 2026/10/06 15:36:58 by haskalov         ###   ########.fr       */
+/*   Updated: 2026/10/07 15:03:14 by haskalov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_data
 	int				finished;
 	int				died;	
 	pthread_mutex_t	died_mutex;
-	pthread_mutex_t print_mutex;
+	pthread_mutex_t	print_mutex;
 }	t_data;
 
 typedef struct s_philo
@@ -65,10 +65,9 @@ typedef struct s_philo
 	t_data			*data;
 }	t_philo;
 
-
 /* * * * * * monitoring.c * * * * * */
 
-void    		print_death(t_data *data, int i, long long	timestamp);
+void			print_death(t_data *data, int i, long long timestamp);
 int				died(t_data *data, int i);
 void			*m_routine(void *arg);
 pthread_t		monitoring(t_data *data);
@@ -80,13 +79,17 @@ void			finished(t_philo *philo);
 void			one_philo(t_philo *philo);
 void			*routine(void *arg);
 
-/* * * * * * philo_action.c * * * * */
+/* * * * * * actions.c * * * * */
 
-int				is_simulation_over(t_philo *philo);
-int				simulation_over(t_data *data);
 void			sleeping(t_philo *philo);
 void			thinking(t_philo *philo);
 void			eating(t_philo *philo);
+
+/* * * * * * conditions.c * * * * */
+
+int				is_simulation_over(t_philo *philo);
+int				simulation_over(t_data *data);
+int				philo_died(t_philo *philo);
 
 /* * * * * * philo_forking.c * * * * */
 
@@ -97,6 +100,7 @@ void			unlock_forks(t_philo *philo);
 
 /* * * * print_function.c * * * */
 
+int				philo_died(t_philo *philo);
 void			print_fork(t_philo *philo);
 void			print_eating(t_philo *philo);
 void			print_sleeping(t_philo *philo);

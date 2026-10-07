@@ -6,7 +6,7 @@
 /*   By: haskalov <haskalov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 13:37:42 by haskalov          #+#    #+#             */
-/*   Updated: 2026/10/05 18:13:53 by haskalov         ###   ########.fr       */
+/*   Updated: 2026/10/07 14:24:07 by haskalov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,18 @@ void	before_start(t_philo *philo)
 
 void	one_philo(t_philo *philo)
 {
-	long long	ts;
+	long long	timestamp;
 
+	if (is_simulation_over(philo))
+		return ;
+	timestamp = (get_time_in_ms() - (philo -> data -> start_time));
 	pthread_mutex_lock(philo -> left_fork);
-	ts = (get_time_in_ms() - philo -> data -> start_time);
-	pthread_mutex_lock(&philo -> data -> print_mutex);
-	printf(CYAN "%lld	%d has taken a fork\n" RESET, ts, philo -> id);
-	pthread_mutex_unlock(&philo -> data -> print_mutex);
-	ft_usleep(philo -> data -> time_to_die, philo -> data);
+	print_fork(philo);
 	pthread_mutex_unlock(philo -> left_fork);
+	ft_usleep(philo -> data -> time_to_die, philo -> data);
+	timestamp = (get_time_in_ms() - (philo -> data -> start_time));
+	print_death(philo -> data, 0, timestamp);
 }
-
 
 void	*routine(void *arg)
 {
@@ -54,5 +55,5 @@ void	*routine(void *arg)
 		if (is_simulation_over(philo))
 			break ;
 	}
-	return ( NULL);
+	return (NULL);
 }

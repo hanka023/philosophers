@@ -6,7 +6,7 @@
 /*   By: haskalov <haskalov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 13:37:42 by haskalov          #+#    #+#             */
-/*   Updated: 2026/10/05 18:18:00 by haskalov         ###   ########.fr       */
+/*   Updated: 2026/10/07 12:55:29 by haskalov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,14 @@ int	died(t_data *data, int i)
 	long long	time;
 	long long	timestamp;
 	long long	last;
+	int			finish;
 
 	time = get_time_in_ms();
 	pthread_mutex_lock(&data -> philos[i].mtx);
 	last = data -> philos[i].last_meal;
+	finish = data -> philos[i].finish;
 	pthread_mutex_unlock(&data -> philos[i].mtx);
-	if ((data->philos[i].finish == 0) && (time - last) > (data->time_to_die))
+	if ((finish == 0) && (time - last) > (data -> time_to_die))
 	{
 		pthread_mutex_lock(&data->died_mutex);
 		(data -> philos[i].died = 1);

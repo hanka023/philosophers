@@ -3,7 +3,7 @@ NAME = philo
 
 # Překladač a příznaky
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I gnl -I utils -I fPie
+CFLAGS = -Wall -Wextra -Werror -g -I gnl -I utils -I fPie
 DEBUG_FLAGS = -g -fsanitize=thread
 ASAN_FLAGS = -g -fsanitize=address
 

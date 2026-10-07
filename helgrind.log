@@ -1,0 +1,95 @@
+==1202786== Helgrind, a thread error detector
+==1202786== Copyright (C) 2007-2017, and GNU GPL'd, by OpenWorks LLP et al.
+==1202786== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==1202786== Command: ./philo 4 410 200 200 5
+==1202786== Parent PID: 1193679
+==1202786== 
+==1202786== ---Thread-Announcement------------------------------------------
+==1202786== 
+==1202786== Thread #2 was created
+==1202786==    at 0x499DA73: clone (clone.S:76)
+==1202786==    by 0x499E96E: __clone_internal (clone-internal.c:83)
+==1202786==    by 0x490C6D8: create_thread (pthread_create.c:295)
+==1202786==    by 0x490D1FF: pthread_create@@GLIBC_2.34 (pthread_create.c:828)
+==1202786==    by 0x4853767: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so)
+==1202786==    by 0x4026B0: pthread_init (in /home/haskalov/philosophers/philo)
+==1202786==    by 0x40275E: thread_func (in /home/haskalov/philosophers/philo)
+==1202786==    by 0x401329: main (in /home/haskalov/philosophers/philo)
+==1202786== 
+==1202786== ---Thread-Announcement------------------------------------------
+==1202786== 
+==1202786== Thread #6 was created
+==1202786==    at 0x499DA73: clone (clone.S:76)
+==1202786==    by 0x499E96E: __clone_internal (clone-internal.c:83)
+==1202786==    by 0x490C6D8: create_thread (pthread_create.c:295)
+==1202786==    by 0x490D1FF: pthread_create@@GLIBC_2.34 (pthread_create.c:828)
+==1202786==    by 0x4853767: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so)
+==1202786==    by 0x401646: monitoring (in /home/haskalov/philosophers/philo)
+==1202786==    by 0x40276B: thread_func (in /home/haskalov/philosophers/philo)
+==1202786==    by 0x401329: main (in /home/haskalov/philosophers/philo)
+==1202786== 
+==1202786== ---Thread-Announcement------------------------------------------
+==1202786== 
+==1202786== Thread #1 is the program's root thread
+==1202786== 
+==1202786== ----------------------------------------------------------------
+==1202786== 
+==1202786==  Lock at 0x4AA40A0 was first observed
+==1202786==    at 0x4854BFE: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so)
+==1202786==    by 0x402513: mutex_init (in /home/haskalov/philosophers/philo)
+==1202786==    by 0x4012ED: main (in /home/haskalov/philosophers/philo)
+==1202786==  Address 0x4aa40a0 is 0 bytes inside a block of size 160 alloc'd
+==1202786==    at 0x484A919: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so)
+==1202786==    by 0x4024CE: mutex_init (in /home/haskalov/philosophers/philo)
+==1202786==    by 0x4012ED: main (in /home/haskalov/philosophers/philo)
+==1202786==  Block was alloc'd by thread #1
+==1202786== 
+==1202786==  Lock at 0x4AA40C8 was first observed
+==1202786==    at 0x4854BFE: pthread_mutex_init (in /usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so)
+==1202786==    by 0x402513: mutex_init (in /home/haskalov/philosophers/philo)
+==1202786==    by 0x4012ED: main (in /home/haskalov/philosophers/philo)
+==1202786==  Address 0x4aa40c8 is 40 bytes inside a block of size 160 alloc'd
+==1202786==    at 0x484A919: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so)
+==1202786==    by 0x4024CE: mutex_init (in /home/haskalov/philosophers/philo)
+==1202786==    by 0x4012ED: main (in /home/haskalov/philosophers/philo)
+==1202786==  Block was alloc'd by thread #1
+==1202786== 
+==1202786==  Lock at 0x4AA4278 was first observed
+==1202786==    at 0x4850CCF: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so)
+==1202786==    by 0x401886: is_simulation_over (in /home/haskalov/philosophers/philo)
+==1202786==    by 0x401796: routine (in /home/haskalov/philosophers/philo)
+==1202786==    by 0x485396A: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so)
+==1202786==    by 0x490CAC2: start_thread (pthread_create.c:442)
+==1202786==    by 0x499DA83: clone (clone.S:100)
+==1202786==  Address 0x4aa4278 is 24 bytes inside a block of size 416 alloc'd
+==1202786==    at 0x484A919: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so)
+==1202786==    by 0x40236C: philo_to_struct (in /home/haskalov/philosophers/philo)
+==1202786==    by 0x401315: main (in /home/haskalov/philosophers/philo)
+==1202786==  Block was alloc'd by thread #1
+==1202786== 
+==1202786== Possible data race during write of size 4 at 0x4AA42BC by thread #2
+==1202786== Locks held: 3, at addresses 0x4AA40A0 0x4AA40C8 0x4AA4278
+==1202786==    at 0x401C58: eating (in /home/haskalov/philosophers/philo)
+==1202786==    by 0x4017EA: routine (in /home/haskalov/philosophers/philo)
+==1202786==    by 0x485396A: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so)
+==1202786==    by 0x490CAC2: start_thread (pthread_create.c:442)
+==1202786==    by 0x499DA83: clone (clone.S:100)
+==1202786== 
+==1202786== This conflicts with a previous read of size 4 by thread #6
+==1202786== Locks held: none
+==1202786==    at 0x40148E: died (in /home/haskalov/philosophers/philo)
+==1202786==    by 0x4015C0: m_routine (in /home/haskalov/philosophers/philo)
+==1202786==    by 0x485396A: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so)
+==1202786==    by 0x490CAC2: start_thread (pthread_create.c:442)
+==1202786==    by 0x499DA83: clone (clone.S:100)
+==1202786==  Address 0x4aa42bc is 92 bytes inside a block of size 416 alloc'd
+==1202786==    at 0x484A919: malloc (in /usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so)
+==1202786==    by 0x40236C: philo_to_struct (in /home/haskalov/philosophers/philo)
+==1202786==    by 0x401315: main (in /home/haskalov/philosophers/philo)
+==1202786==  Block was alloc'd by thread #1
+==1202786== 
+==1202786== 
+==1202786== Use --history-level=approx or =none to gain increased speed, at
+==1202786== the cost of reduced accuracy of conflicting-access information
+==1202786== For lists of detected and suppressed errors, rerun with: -s
+==1202786== ERROR SUMMARY: 2 errors from 1 contexts (suppressed: 342964 from 208)
