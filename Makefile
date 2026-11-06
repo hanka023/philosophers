@@ -11,6 +11,7 @@ SRC =   philos/main.c           \
  		philos/actions.c  		\
 		philos/conditions.c		\
         philos/forking.c  		\
+		philos/main_utils.c     \
         philos/monitoring.c     \
 		philos/print_function.c \
 		philos/routine.c        \

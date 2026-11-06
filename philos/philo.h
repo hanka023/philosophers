@@ -111,7 +111,6 @@ void			print_thinking(t_philo *philo);
 int				ft_atoi(const char *str);
 t_data			*data_to_struct(int *args, int len, pthread_mutex_t *forks);
 t_philo			*philo_to_struct(t_data *data, pthread_mutex_t *forks);
-int				*arg_reader(int argc, char **argv);
 void			print_data(t_data *data, int len);
 
 /* * * * * * thread_mutex.c * * * * */
@@ -127,5 +126,11 @@ void			thread_func(t_data *data);
 long long		get_time_in_ms(void);
 void			ft_usleep(long long time_in_ms, t_data *data);
 long long		count_time_to_think(t_philo *philo);
+
+
+/* * * * * * main_utils.c * * * * * */
+
+int				*arg_reader(int argc, char **argv);
+int				check_args(int argc, char **argv);
 
 /* * * * * * * * * * * * * * */
